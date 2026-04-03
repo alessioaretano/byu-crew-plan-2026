@@ -876,7 +876,7 @@ function fmtHMS(ms){
 
 // ═══ QR ═══
 function showQR(){
-  const url=window.location.href;
+  const url = "https://alessioaretano.github.io/byu-crew-plan-2026/";
   document.getElementById('qr-img').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}" width="200" height="200" style="display:block;border-radius:4px">`;
   document.getElementById('qr-url').textContent=url;
   document.getElementById('qr-modal').style.display='flex';
