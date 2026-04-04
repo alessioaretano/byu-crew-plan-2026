@@ -6,6 +6,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>BYU 2026 · Crew</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <meta name="apple-mobile-web-app-title" content="Alessios Crew">
   <style>
     :root {
       --bg:#000; --surface:#0D0D0D; --card:#141414; --card2:#1C1C1C;
@@ -418,13 +421,6 @@
         <div class="lq-saved" id="lq-saved">✓ Gespeichert!</div>
       </div>
 
-      <!-- NAP TIMER -->
-      <div style="padding:0 16px 16px;">
-        <button onclick="startNapTimer()" id="nap-timer-btn" style="width:100%;background:rgba(144,96,200,.15);border:1px solid rgba(144,96,200,.4);border-radius:12px;color:var(--nap-txt);font-size:14px;font-weight:700;padding:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-          💤 Nap-Timer starten&nbsp;<span style="font-size:12px;opacity:.7;" id="nap-timer-until"></span>
-        </button>
-      </div>
-
       <!-- NEXT ROUND -->
       <div class="prep">
         <div class="prep-lbl">Nächste Runde <span id="next-rd-num">2</span> – vorbereiten</div>
@@ -473,7 +469,6 @@
           <button class="day-chip" data-day="3" onclick="setDay(3)">Tag 3 · Sa</button>
           <button class="day-chip" data-day="4" onclick="setDay(4)">Tag 4 · So</button>
           <button class="day-chip" data-day="5" onclick="setDay(5)">Tag 5 · Mo</button>
-          <button class="day-chip" data-day="6" onclick="setDay(6)">Tag 6 · Di</button>
         </div>
         <div class="pace-filters">
           <button class="pf active" data-f="all" onclick="setFilter('all')">Alle</button>
@@ -506,6 +501,17 @@
           <div class="rule-row"><span class="rule-dash">🔋</span><span>Check: Stirnlampen-Akku & Ersatzakku bereit?</span></div>
           <div class="rule-row"><span class="rule-dash">🏷️</span><span>Check: <strong>Tracker & Startnummer</strong> immer am Mann?</span></div>
         </div>
+
+        <div class="sec-title">Pro Runde – Checklist</div>
+        <div class="info-card" id="crew-checklist">
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Flasche gemäss Plan vorbereiten</span></div>
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Essen bereitstellen</span></div>
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Elektrolyt / Salz bereithalten</span></div>
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Was gegessen / getrunken protokollieren</span></div>
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Bei Nap: Wecker auf 3 min vor Start</span></div>
+          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Warme Mahlzeit rechtzeitig aufheizen</span></div>
+        </div>
+        <button onclick="resetChecklist()" style="background:none;border:1px solid var(--border2);border-radius:8px;color:var(--mid);font-size:13px;padding:9px 18px;cursor:pointer;margin-bottom:20px;">Checklist zurücksetzen</button>
 
         <div class="sec-title">Problemlösung & Strategie</div>
         <div class="info-card">
@@ -667,17 +673,14 @@ const NUT=[
 const START=new Date(2026,4,14,12,0,0);
 const WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MO=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const DAY_LABELS=['','Do 14. Mai','Fr 15. Mai','Sa 16. Mai','So 17. Mai','Mo 18. Mai','Di 19. Mai'];
+const DAY_LABELS=['','Do 14. Mai','Fr 15. Mai','Sa 16. Mai','So 17. Mai','Mo 18. Mai'];
 
 function rd(n){
   const p=PACE[(n-1)%24],nu=NUT[(n-1)%48];
   const d=new Date(START.getTime()+(n-1)*3600000);
   const h0=d.getHours().toString().padStart(2,'0');
   const h1=((d.getHours()+1)%24).toString().padStart(2,'0');
-  const startMidnight=new Date(START.getFullYear(),START.getMonth(),START.getDate());
-  const roundMidnight=new Date(d.getFullYear(),d.getMonth(),d.getDate());
-  const dayNum=Math.round((roundMidnight-startMidnight)/86400000)+1;
-  return{n,dayNum,wd:WD[d.getDay()],dt:`${d.getDate()}. ${MO[d.getMonth()]}`,
+  return{n,dayNum:Math.floor((n-1)/24)+1,wd:WD[d.getDay()],dt:`${d.getDate()}. ${MO[d.getMonth()]}`,
     t0:`${h0}:00`,t1:`${h1}:00`,startMs:d.getTime(),...p,...nu};
 }
 
@@ -727,7 +730,6 @@ function renderLog(){
         <div class="le-time">${e.time} Uhr</div>
         <div class="le-sp"></div>
         <div class="le-pace ${e.pace}">${e.pace}</div>
-        <button onclick="deleteLogEntry(${e.round})" style="background:none;border:none;color:var(--dim);font-size:20px;line-height:1;cursor:pointer;padding:0 0 0 8px;" title="Eintrag löschen">×</button>
       </div>
       <div class="le-body">
         <div class="le-row"><span class="le-lbl">Flasche</span><span class="le-val">${e.flasche}</span></div>
@@ -738,13 +740,6 @@ function renderLog(){
       </div>
     </div>`;
   }).join('');
-}
-
-function deleteLogEntry(roundNum){
-  if(!confirm('Eintrag Runde '+roundNum+' löschen?')) return;
-  logData=logData.filter(e=>e.round!==roundNum);
-  saveLog();
-  renderLog();
 }
 
 // ═══ PREP TOGGLE ═══
@@ -991,7 +986,7 @@ function updateClock(){
     document.getElementById('race-day-lbl').textContent='Witikon · Beendet';
   }
   if(autoMode){const detected=detectRound();if(detected&&detected!==curRound){curRound=detected;save();renderJetzt();}}
-  if(curTab===0){renderCountdown();updateNapTimerBtn();}
+  if(curTab===0)renderCountdown();
 }
 
 // ═══ WETTER ═══
@@ -1081,35 +1076,6 @@ function copyQrUrl(){
   });
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
-
-// ═══ NAP TIMER ═══
-function calcNapSecs(){
-  const now=new Date();
-  let s=(57*60)-(now.getMinutes()*60+now.getSeconds());
-  if(s<=0) s+=3600;
-  return s;
-}
-function updateNapTimerBtn(){
-  const el=document.getElementById('nap-timer-until');
-  if(!el) return;
-  const s=calcNapSecs();
-  const m=Math.floor(s/60),ss=s%60;
-  el.textContent=`(${m}:${ss.toString().padStart(2,'0')} bis :57)`;
-}
-function startNapTimer(){
-  const s=calcNapSecs();
-  const m=Math.floor(s/60),ss=s%60;
-  window.open(`clock-timer://start?hours=0&minutes=${m}&seconds=${ss}`,'_self');
-  const btn=document.getElementById('nap-timer-btn');
-  if(btn){
-    const orig=btn.innerHTML;
-    btn.innerHTML='✓ Timer gestartet in Uhr-App';
-    btn.style.background='rgba(61,168,90,.2)';
-    btn.style.borderColor='rgba(61,168,90,.5)';
-    btn.style.color='var(--m-txt)';
-    setTimeout(()=>{btn.innerHTML=orig;btn.style.cssText='';},2500);
-  }
-}
 
 // ═══ INIT ═══
 const autoDetected=detectRound();
