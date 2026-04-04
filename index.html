@@ -24,7 +24,7 @@
     html,body{height:100%;overflow:hidden;background:var(--bg);}
     body{color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent;}
 
-    .top-bar{position:fixed;top:0;left:0;right:0;height:var(--top);background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top);}
+    .top-bar{position:fixed;top:0;left:0;right:0;height:calc(var(--top) + env(safe-area-inset-top));background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top);}
     .brand{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--cream);letter-spacing:-.5px;}
     .top-right{text-align:right;}
     .live-clock{font-size:18px;font-weight:600;color:var(--cream);font-variant-numeric:tabular-nums;letter-spacing:-.5px;}
@@ -36,7 +36,7 @@
     .nav-icon{font-size:20px;line-height:1;}
     .nav-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
 
-    .content{position:fixed;top:var(--top);bottom:var(--bot);left:0;right:0;overflow:hidden;}
+    .content{position:fixed;top:calc(var(--top) + env(safe-area-inset-top));bottom:var(--bot);left:0;right:0;overflow:hidden;}
     .swiper{display:flex;width:400%;height:100%;transition:transform .32s cubic-bezier(.25,.46,.45,.94);will-change:transform;}
     .tab{width:25%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 
@@ -278,16 +278,13 @@
 <body>
 
 <div class="top-bar">
-  <div class="brand">WITIKON BYU 2026</div>
-  <div style="display:flex;align-items:center;">
-    <div class="em-trigger" onclick="toggleEmPopup(event)">
-      <span class="em-trigger-icon">🏥</span>
-      <span class="em-trigger-label">0+</span>
-    </div>
-    <div class="top-right">
-      <div class="live-clock" id="live-clock">00:00:00</div>
-      <div class="race-day" id="race-day-lbl">Tag 1 · Witikon</div>
-    </div>
+  <div class="em-trigger" onclick="toggleEmPopup(event)">
+    <span class="em-trigger-icon">🏥</span>
+    <span class="em-trigger-label">0+</span>
+  </div>
+  <div class="top-right">
+    <div class="live-clock" id="live-clock">00:00:00</div>
+    <div class="race-day" id="race-day-lbl">Tag 1 · Witikon</div>
   </div>
 </div>
 
