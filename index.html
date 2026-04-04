@@ -249,14 +249,11 @@
     .qr-sub{font-size:13px;color:var(--dim);margin-bottom:20px;}
     .qr-img-wrap{display:flex;justify-content:center;margin-bottom:20px;}
     .qr-img-wrap img{border-radius:16px;box-shadow:0 0 0 6px #fff, 0 8px 32px rgba(0,0,0,.5);}
-    .qr-url{font-size:11px;color:var(--mid);word-break:break-all;background:var(--card);padding:10px 12px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);}
-    .qr-divider{height:1px;background:var(--border);margin:0 0 16px;}
-    .qr-app-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:12px;}
-    .qr-steps{display:flex;gap:8px;margin-bottom:16px;}
-    .qr-step{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;}
-    .qr-step-ico{font-size:22px;}
-    .qr-step-txt{font-size:11px;color:var(--mid);line-height:1.35;text-align:center;}
-    .qr-dl-btn{display:block;width:100%;background:var(--m-bg);border:1px solid var(--m-bd);border-radius:12px;color:var(--m-txt);font-size:14px;font-weight:600;padding:13px;cursor:pointer;text-decoration:none;}
+    .qr-url{font-size:11px;color:var(--mid);word-break:break-all;background:var(--card);padding:10px 12px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;}
+    .qr-url:active{background:var(--border2);}
+    .qr-url-text{flex:1;text-align:left;}
+    .qr-copy-ico{font-size:14px;flex-shrink:0;}
+    .qr-copied-lbl{font-size:11px;color:var(--m-txt);font-weight:700;flex-shrink:0;display:none;}
 
     .hidden{display:none;}
   </style>
@@ -575,7 +572,11 @@
     <div class="qr-ttl">Crew Plan teilen</div>
     <div class="qr-sub">Witikon BYU 2026</div>
     <div class="qr-img-wrap" id="qr-img"></div>
-    <div class="qr-url" id="qr-url"></div>
+    <div class="qr-url" onclick="copyQrUrl()" id="qr-url-box">
+      <span class="qr-url-text" id="qr-url"></span>
+      <span class="qr-copy-ico">📋</span>
+      <span class="qr-copied-lbl" id="qr-copied">Kopiert!</span>
+    </div>
     <div class="qr-divider"></div>
     <div class="qr-app-title">📲 Als iPhone App installieren</div>
     <div class="qr-steps">
@@ -592,7 +593,6 @@
         <div class="qr-step-txt">«Zum Home-Bildschirm»</div>
       </div>
     </div>
-    <a id="qr-dl-btn" class="qr-dl-btn" href="#" download="crew-byu-2026.html">⬇️ Seite herunterladen</a>
   </div>
 </div>
 
@@ -1061,8 +1061,17 @@ function showQR(){
   const url='https://alessioaretano.github.io/byu-crew-plan-2026/';
   document.getElementById('qr-img').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&color=000000&bgcolor=ffffff&data=${encodeURIComponent(url)}" width="220" height="220" style="display:block;">`;
   document.getElementById('qr-url').textContent=url;
-  document.getElementById('qr-dl-btn').href=url;
   document.getElementById('qr-modal').style.display='flex';
+}
+function copyQrUrl(){
+  const url='https://alessioaretano.github.io/byu-crew-plan-2026/';
+  navigator.clipboard.writeText(url).then(()=>{
+    const lbl=document.getElementById('qr-copied');
+    const ico=document.querySelector('.qr-copy-ico');
+    lbl.style.display='inline';
+    ico.style.display='none';
+    setTimeout(()=>{lbl.style.display='none';ico.style.display='';},2000);
+  });
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
 
