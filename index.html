@@ -241,14 +241,22 @@
     .le-note{font-size:12px;color:var(--mid);font-style:italic;margin-top:4px;padding-top:6px;border-top:1px solid var(--border);}
 
     /* QR MODAL */
-    .qr-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
-    .qr-inner{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:32px 24px;width:100%;max-width:340px;text-align:center;position:relative;}
+    .qr-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:1000;display:none;align-items:flex-end;justify-content:center;padding:0;}
+    .qr-inner{background:var(--surface);border:1px solid var(--border2);border-radius:28px 28px 0 0;padding:12px 20px 40px;width:100%;max-width:480px;text-align:center;position:relative;}
+    .qr-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 20px;}
     .qr-close{position:absolute;top:16px;right:16px;width:32px;height:32px;background:var(--card);border:1px solid var(--border2);border-radius:50%;color:var(--mid);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-    .qr-ttl{font-size:18px;font-weight:700;color:var(--cream);margin-bottom:4px;}
-    .qr-sub{font-size:13px;color:var(--dim);margin-bottom:24px;}
-    .qr-img{margin-bottom:24px;display:flex;justify-content:center;}
-    .qr-url{font-size:11px;color:var(--mid);word-break:break-all;background:var(--card);padding:10px;border-radius:8px;margin-bottom:12px;}
-    .qr-note{font-size:12px;color:var(--dim);line-height:1.5;}
+    .qr-ttl{font-size:19px;font-weight:700;color:var(--cream);margin-bottom:2px;}
+    .qr-sub{font-size:13px;color:var(--dim);margin-bottom:20px;}
+    .qr-img-wrap{display:flex;justify-content:center;margin-bottom:20px;}
+    .qr-img-wrap img{border-radius:16px;box-shadow:0 0 0 6px #fff, 0 8px 32px rgba(0,0,0,.5);}
+    .qr-url{font-size:11px;color:var(--mid);word-break:break-all;background:var(--card);padding:10px 12px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);}
+    .qr-divider{height:1px;background:var(--border);margin:0 0 16px;}
+    .qr-app-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:12px;}
+    .qr-steps{display:flex;gap:8px;margin-bottom:16px;}
+    .qr-step{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+    .qr-step-ico{font-size:22px;}
+    .qr-step-txt{font-size:11px;color:var(--mid);line-height:1.35;text-align:center;}
+    .qr-dl-btn{display:block;width:100%;background:var(--m-bg);border:1px solid var(--m-bd);border-radius:12px;color:var(--m-txt);font-size:14px;font-weight:600;padding:13px;cursor:pointer;text-decoration:none;}
 
     .hidden{display:none;}
   </style>
@@ -547,9 +555,12 @@
 
 <!-- WETTER MODAL -->
 <div class="modal" id="weather-modal" onclick="if(event.target===this)closeWeatherModal()">
-  <div class="modal-inner">
+  <div class="modal-inner" id="weather-modal-inner">
     <div class="modal-handle"></div>
-    <div class="modal-title">48h Wettervorschau · Witikon</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div class="modal-title" style="margin-bottom:0;">48h Wettervorschau · Witikon</div>
+      <button onclick="closeWeatherModal()" style="background:var(--card);border:1px solid var(--border2);border-radius:50%;width:36px;height:36px;color:var(--mid);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">×</button>
+    </div>
     <div class="forecast-grid" id="forecast-grid">
       <div style="text-align:center;color:var(--dim);padding:24px;font-style:italic;">Wird geladen…</div>
     </div>
@@ -559,12 +570,29 @@
 <!-- QR MODAL -->
 <div class="qr-modal" id="qr-modal">
   <div class="qr-inner">
+    <div class="qr-handle"></div>
     <button class="qr-close" onclick="document.getElementById('qr-modal').style.display='none'">×</button>
-    <div class="qr-ttl">Crew Plan öffnen</div>
+    <div class="qr-ttl">Crew Plan teilen</div>
     <div class="qr-sub">Witikon BYU 2026</div>
-    <div class="qr-img" id="qr-img"></div>
+    <div class="qr-img-wrap" id="qr-img"></div>
     <div class="qr-url" id="qr-url"></div>
-    <div class="qr-note">Link einfach aufrufen – funktioniert überall, kein gemeinsames WLAN nötig.</div>
+    <div class="qr-divider"></div>
+    <div class="qr-app-title">📲 Als iPhone App installieren</div>
+    <div class="qr-steps">
+      <div class="qr-step">
+        <div class="qr-step-ico">🔗</div>
+        <div class="qr-step-txt">Link öffnen im Safari</div>
+      </div>
+      <div class="qr-step">
+        <div class="qr-step-ico">⬆️</div>
+        <div class="qr-step-txt">Teilen-Button unten tippen</div>
+      </div>
+      <div class="qr-step">
+        <div class="qr-step-ico">➕</div>
+        <div class="qr-step-txt">«Zum Home-Bildschirm»</div>
+      </div>
+    </div>
+    <a id="qr-dl-btn" class="qr-dl-btn" href="#" download="crew-byu-2026.html">⬇️ Seite herunterladen</a>
   </div>
 </div>
 
@@ -990,6 +1018,17 @@ function openWeatherModal(){
 }
 function closeWeatherModal(){document.getElementById('weather-modal').classList.remove('open');}
 
+// Swipe down to close weather modal
+(function(){
+  let sy=0;
+  const inner=document.getElementById('weather-modal-inner');
+  if(!inner) return;
+  inner.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;},{passive:true});
+  inner.addEventListener('touchend',e=>{
+    if(e.changedTouches[0].clientY-sy>80 && inner.scrollTop===0) closeWeatherModal();
+  },{passive:true});
+})();
+
 function buildForecast(){
   const grid=document.getElementById('forecast-grid');
   if(!forecastData){grid.innerHTML='<div style="text-align:center;color:var(--dim);padding:24px;font-style:italic;">Wetterdaten werden geladen…</div>';return;}
@@ -1020,8 +1059,9 @@ function buildForecast(){
 // ═══ QR ═══
 function showQR(){
   const url='https://alessioaretano.github.io/byu-crew-plan-2026/';
-  document.getElementById('qr-img').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}" width="200" height="200" style="display:block;border-radius:4px">`;
+  document.getElementById('qr-img').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&color=000000&bgcolor=ffffff&data=${encodeURIComponent(url)}" width="220" height="220" style="display:block;">`;
   document.getElementById('qr-url').textContent=url;
+  document.getElementById('qr-dl-btn').href=url;
   document.getElementById('qr-modal').style.display='flex';
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
