@@ -34,8 +34,8 @@
     .nav-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
 
     .content{position:fixed;top:var(--top);bottom:var(--bot);left:0;right:0;overflow:hidden;}
-    .swiper{display:flex;width:500%;height:100%;transition:transform .32s cubic-bezier(.25,.46,.45,.94);will-change:transform;}
-    .tab{width:20%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+    .swiper{display:flex;width:400%;height:100%;transition:transform .32s cubic-bezier(.25,.46,.45,.94);will-change:transform;}
+    .tab{width:25%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 
     /* WETTER */
     .weather-bar{margin:12px 16px 4px;background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;transition:background .1s;}
@@ -64,18 +64,18 @@
     .fc-day-hdr{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:10px 0 4px;}
 
     /* HERO */
-    .hero{padding:12px 16px 0;}
-    .hero-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
-    .hero-rd{font-size:80px;font-weight:800;line-height:1;letter-spacing:-4px;color:var(--cream);}
-    .hero-meta{text-align:right;padding-top:8px;}
-    .hero-phase{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
-    .hero-pace{display:inline-flex;align-items:center;padding:7px 16px;border-radius:24px;font-size:14px;font-weight:700;letter-spacing:.04em;}
+    .hero{padding:16px 16px 0;}
+    .hero-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px;}
+    .hero-rd{font-size:96px;font-weight:800;line-height:0.8;letter-spacing:-4px;color:var(--cream);}
+    .hero-meta{text-align:right;}
+    .hero-phase{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+    .hero-pace{display:inline-flex;align-items:center;padding:8px 18px;border-radius:24px;font-size:14px;font-weight:700;letter-spacing:.02em;}
     .hero-pace.SCHNELL{background:var(--s-bg);color:var(--s-txt);border:1px solid var(--s-bd);}
     .hero-pace.MITTEL{background:var(--m-bg);color:var(--m-txt);border:1px solid var(--m-bd);}
     .hero-pace.RECOVERY{background:var(--r-bg);color:var(--r-txt);border:1px solid var(--r-bd);}
-    .hero-time{font-size:15px;color:var(--mid);margin-top:4px;}
+    .hero-time{font-size:14px;color:var(--mid);margin-top:8px;font-variant-numeric:tabular-nums;}
 
-    .countdown-box{margin:0 16px 14px;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+    .countdown-box{margin:0 16px 16px;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
     .cd-left .cd-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);}
     .cd-left .cd-time{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--cream);line-height:1.1;}
     .cd-left .cd-sub{font-size:12px;color:var(--mid);margin-top:2px;}
@@ -204,18 +204,25 @@
     .motto-card{background:linear-gradient(135deg,#1a0808 0%,#000 100%);border:1px solid var(--s-bd);border-radius:14px;padding:20px;text-align:center;margin-bottom:20px;}
     .motto-txt{font-family:Georgia,serif;font-size:20px;font-style:italic;color:var(--s-txt);font-weight:700;}
 
-    /* NAP TAB */
-    .nap-pad{padding:16px;}
-    .nap-night-hdr{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:20px 0 10px;}
-    .nap-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border2);border-radius:10px;margin-bottom:6px;}
-    .nap-row.window{border-color:rgba(144,96,200,0.3);background:rgba(144,96,200,0.05);}
-    .nap-rd-time{width:55px;flex-shrink:0;}
-    .nrt-rd{font-size:11px;color:var(--dim);font-weight:700;}
-    .nrt-t{font-size:14px;color:var(--cream);font-weight:700;}
-    .nap-desc{flex:1;font-size:13px;color:var(--mid);}
-    .nap-tag{background:var(--nap);color:#fff;font-size:10px;font-weight:800;padding:3px 7px;border-radius:4px;letter-spacing:.04em;}
-    .koffein-card{background:#1A1A08;border:1px solid #444414;border-radius:14px;padding:16px;margin-top:12px;}
-    .koffein-card h3{font-size:14px;color:#FDE047;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
+    /* EMERGENCY HEADER & POPUP */
+    .em-trigger{background:rgba(224,80,80,0.15);border:1px solid rgba(224,80,80,0.4);border-radius:8px;padding:4px 8px;display:flex;align-items:center;gap:6px;cursor:pointer;margin-right:10px;transition:background .15s;}
+    .em-trigger:active{background:rgba(224,80,80,0.3);}
+    .em-trigger-icon{font-size:16px;}
+    .em-trigger-label{font-size:11px;font-weight:700;color:var(--s-txt);text-transform:uppercase;letter-spacing:.04em;}
+    
+    .em-popup{position:fixed;top:calc(var(--top) + 8px);right:16px;background:var(--surface);border:1px solid var(--s-bd);border-radius:12px;padding:12px 16px;z-index:1100;box-shadow:0 8px 24px rgba(0,0,0,0.6);display:none;animation:emFadeIn .2s ease-out;}
+    .em-popup.open{display:block;}
+    @keyframes emFadeIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+    .em-pop-title{font-size:10px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+    .em-pop-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+    .em-pop-row:last-child{margin-bottom:0;}
+    .em-pop-val{font-size:16px;font-weight:700;color:var(--cream);}
+    .em-pop-link{color:var(--s-txt);text-decoration:none;display:flex;align-items:center;gap:6px;}
+    
+    @media (min-width: 600px) {
+      .em-trigger{padding:6px 12px;}
+      .em-trigger-label{font-size:12px;}
+    }
 
     /* LOG TAB */
     .log-pad{padding:16px;}
@@ -254,6 +261,13 @@
     .qr-url-text{flex:1;text-align:left;}
     .qr-copy-ico{font-size:14px;flex-shrink:0;}
     .qr-copied-lbl{font-size:11px;color:var(--m-txt);font-weight:700;flex-shrink:0;display:none;}
+    .qr-divider{height:1px;background:var(--border);margin:24px 0;}
+    .qr-app-title{font-size:14px;font-weight:700;color:var(--cream);margin-bottom:12px;text-align:center;}
+    .qr-steps{display:flex;flex-direction:row;gap:8px;margin-top:12px;}
+    .qr-step{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 8px;aspect-ratio:1/1;position:relative;}
+    .qr-step-num{position:absolute;top:6px;left:6px;width:18px;height:18px;border-radius:50%;background:var(--cream);color:#000;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .qr-step-ico{font-size:24px;line-height:1;}
+    .qr-step-txt{font-size:10px;color:var(--text);line-height:1.2;font-weight:500;}
 
     .hidden{display:none;}
   </style>
@@ -262,9 +276,30 @@
 
 <div class="top-bar">
   <div class="brand">WITIKON BYU 2026</div>
-  <div class="top-right">
-    <div class="live-clock" id="live-clock">00:00:00</div>
-    <div class="race-day" id="race-day-lbl">Tag 1 · Witikon</div>
+  <div style="display:flex;align-items:center;">
+    <div class="em-trigger" onclick="toggleEmPopup(event)">
+      <span class="em-trigger-icon">🏥</span>
+      <span class="em-trigger-label">0+</span>
+    </div>
+    <div class="top-right">
+      <div class="live-clock" id="live-clock">00:00:00</div>
+      <div class="race-day" id="race-day-lbl">Tag 1 · Witikon</div>
+    </div>
+  </div>
+</div>
+
+<!-- EMERGENCY POPUP -->
+<div class="em-popup" id="em-popup">
+  <div class="em-pop-title">Notfall-Info (Alessio)</div>
+  <div class="em-pop-row">
+    <span style="font-size:14px;color:var(--mid)">Blutgruppe:</span>
+    <span class="em-pop-val">0+</span>
+  </div>
+  <div class="em-pop-row">
+    <a href="tel:144" class="em-pop-link">
+      <span style="font-size:18px">🚑</span>
+      <span class="em-pop-val">144 anrufen</span>
+    </a>
   </div>
 </div>
 
@@ -383,6 +418,13 @@
         <div class="lq-saved" id="lq-saved">✓ Gespeichert!</div>
       </div>
 
+      <!-- NAP TIMER -->
+      <div style="padding:0 16px 16px;">
+        <button onclick="startNapTimer()" id="nap-timer-btn" style="width:100%;background:rgba(144,96,200,.15);border:1px solid rgba(144,96,200,.4);border-radius:12px;color:var(--nap-txt);font-size:14px;font-weight:700;padding:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+          💤 Nap-Timer starten&nbsp;<span style="font-size:12px;opacity:.7;" id="nap-timer-until"></span>
+        </button>
+      </div>
+
       <!-- NEXT ROUND -->
       <div class="prep">
         <div class="prep-lbl">Nächste Runde <span id="next-rd-num">2</span> – vorbereiten</div>
@@ -431,6 +473,7 @@
           <button class="day-chip" data-day="3" onclick="setDay(3)">Tag 3 · Sa</button>
           <button class="day-chip" data-day="4" onclick="setDay(4)">Tag 4 · So</button>
           <button class="day-chip" data-day="5" onclick="setDay(5)">Tag 5 · Mo</button>
+          <button class="day-chip" data-day="6" onclick="setDay(6)">Tag 6 · Di</button>
         </div>
         <div class="pace-filters">
           <button class="pf active" data-f="all" onclick="setFilter('all')">Alle</button>
@@ -450,39 +493,30 @@
         </div>
         <div class="sec-title">Eure Mission</div>
         <div class="info-card">
-          <div class="rule-row"><span class="rule-dash">★</span><span><strong>Keine Sorgen:</strong> Ich darf mich um nichts kümmern müssen. Ihr habt den Plan im Griff.</span></div>
+          <div class="rule-row"><span class="rule-dash">★</span><span><strong>Kommunikation:</strong> Nach 24h nur noch <strong>Ja/Nein-Fragen</strong> stellen.</span></div>
+          <div class="rule-row"><span class="rule-dash">★</span><span><strong>Kein Pardon:</strong> Ihr müsst mich JEDE RUNDE rausschicken. Wenn ich stehen kann, kann ich laufen.</span></div>
           <div class="rule-row"><span class="rule-dash">★</span><span><strong>Vibe:</strong> Im Zelt herrscht IMMER Freude, Motivation und positive Energie.</span></div>
-          <div class="rule-row"><span class="rule-dash">★</span><span><strong>Kein Pardon:</strong> Ihr müsst mich JEDE RUNDE rausschicken. Es gibt kein "Ich kann nicht mehr".</span></div>
           <div class="rule-row"><span class="rule-dash">★</span><span><strong>Last Second:</strong> Wenn ich um :59 ankomme: Alles auf die Hand geben und direkt wieder los!</span></div>
         </div>
-        <div class="sec-title">Pro Runde – Checklist</div>
-        <div class="info-card" id="crew-checklist">
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Flasche gemäss Plan vorbereiten</span></div>
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Essen bereitstellen</span></div>
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Elektrolyt / Salz bereithalten</span></div>
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Was gegessen / getrunken protokollieren</span></div>
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Bei Nap: Wecker auf 3 min vor Start</span></div>
-          <div class="check-row" onclick="toggleCheck(this)"><div class="chk"></div><span>Warme Mahlzeit rechtzeitig aufheizen</span></div>
-        </div>
-        <button onclick="resetChecklist()" style="background:none;border:1px solid var(--border2);border-radius:8px;color:var(--mid);font-size:13px;padding:9px 18px;cursor:pointer;margin-bottom:20px;">Checklist zurücksetzen</button>
-        <div class="sec-title">Wichtige Regeln</div>
+
+        <div class="sec-title">Ausrüstungs-Check</div>
         <div class="info-card">
-          <div class="rule-row"><span class="rule-dash">—</span><span>Erste Runde <strong>IMMER Recovery</strong>. Kein schneller Start.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>HR-Obergrenze tagsüber: <strong>140 bpm</strong>. Nachts nach Gefühl.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Bergauf <strong>IMMER gehen</strong> – auch in schnellen Runden.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Wenn er sich schlecht fühlt: nächste Runde auf <strong>Recovery</strong>.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Crew weckt <strong>3 min vor Rundenstart</strong> bei Nap-Runden.</span></div>
+          <div class="rule-row"><span class="rule-dash">🧥</span><span>Empfang <strong>IMMER mit Winterjacke</strong> (Auskühl-Schutz).</span></div>
+          <div class="rule-row"><span class="rule-dash">🔦</span><span>Nachts: <strong>Stirnlampe & Leuchtweste</strong> obligatorisch.</span></div>
+          <div class="rule-row"><span class="rule-dash">🔋</span><span>Check: Stirnlampen-Akku & Ersatzakku bereit?</span></div>
+          <div class="rule-row"><span class="rule-dash">🏷️</span><span>Check: <strong>Tracker & Startnummer</strong> immer am Mann?</span></div>
         </div>
-        <div class="sec-title">Anpassungen im Rennen</div>
+
+        <div class="sec-title">Problemlösung & Strategie</div>
         <div class="info-card">
-          <div class="rule-row"><span class="rule-dash">—</span><span><strong>Magen rebelliert?</strong> Wasser + Datteln. Ingwer einsetzen.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span><strong>Kein Hunger?</strong> TROTZDEM essen. Mind. Datteln + Carbmix.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span><strong>Heiss / viel Schwitzen?</strong> Salztabletten alle 2h. Mehr Wasser.</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span><strong>Kalt nachts?</strong> Mehr warme Nahrung (Nudeln, Kartoffeln).</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span><strong>Ab Runde 50+:</strong> Wenn Appetit steigt, unbedingt nutzen.</span></div>
+          <div class="rule-row"><span class="rule-dash">🤢</span><span><strong>Durchfall?</strong> Ingwerstückchen oder Ingwertee.</span></div>
+          <div class="rule-row"><span class="rule-dash">🥨</span><span><strong>Magenprobleme?</strong> Salzstangen, Bouillon oder Cola.</span></div>
+          <div class="rule-row"><span class="rule-dash">☕</span><span><strong>Koffein:</strong> Erst ab 2. Nacht (falls nötig), besser erst ab 3. Nacht.</span></div>
+          <div class="rule-row"><span class="rule-dash">🧠</span><span><strong>Mentales Tief?</strong> Fokus auf nächsten Schritt. Runde für Runde.</span></div>
+          <div class="rule-row"><span class="rule-dash">⚡</span><span><strong>Schnelle Runden:</strong> Heisst immer ESSEN oder SCHLAFEN.</span></div>
         </div>
         <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;text-align:center;">
-          <button onclick="showQR()" style="background:none;border:1px solid #3DA85A;border-radius:10px;color:#7DD88A;font-size:14px;font-weight:600;padding:12px 24px;cursor:pointer;width:100%;">📱 QR-Code für Crew teilen</button>
+          <button onclick="showQR()" style="background:none;border:1px solid #3DA85A;border-radius:10px;color:#7DD88A;font-size:14px;font-weight:600;padding:12px 24px;cursor:pointer;width:100%;">📱 QR-Code & App</button>
         </div>
         <div style="padding:20px 0;text-align:center;font-size:13px;color:var(--dim);font-style:italic;">
           «Don't overwhelm yourself with the big picture.<br>Just master the art of showing up.»<br>
@@ -491,28 +525,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: NAP -->
-    <div class="tab" id="tab-nap">
-      <div class="nap-pad">
-        <div class="nap-night-hdr" style="padding-top:8px">Nap-Strategie</div>
-        <div class="info-card" style="margin-bottom:16px;">
-          <div class="rule-row"><span class="rule-dash">—</span><span>Nacht-Schema: <strong>2× Schnell + 1× Recovery</strong> (wiederholt)</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Schnelle Runden = bis zu <strong>15 min Nap</strong> möglich</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Nap-Potenzial pro Nacht: <strong>~90 min</strong> (6× 15 min)</span></div>
-          <div class="rule-row"><span class="rule-dash">—</span><span>Crew weckt <strong>3 min</strong> vor Rundenstart</span></div>
-        </div>
-        <div id="nap-nights"></div>
-        <div class="nap-night-hdr">Koffein-Strategie</div>
-        <div class="koffein-card">
-          <h3>☕ Koffein-Plan</h3>
-          <div class="rule-row" style="border-bottom-color:rgba(253,224,71,.1)"><span class="rule-dash" style="color:var(--dim)">—</span><span style="color:var(--mid)">Erste <strong style="color:#FDE047">24h: Kein Koffein</strong></span></div>
-          <div class="rule-row" style="border-bottom-color:rgba(253,224,71,.1)"><span class="rule-dash" style="color:var(--dim)">—</span><span style="color:var(--mid)">Ab Runde 34 (Fr 21:00): <strong style="color:#FDE047">Koffein starten</strong></span></div>
-          <div class="rule-row" style="border-bottom-color:rgba(253,224,71,.1)"><span class="rule-dash" style="color:var(--dim)">—</span><span style="color:var(--mid)">100–200mg alle <strong style="color:#FDE047">3–4 Stunden</strong></span></div>
-          <div class="rule-row" style="border-bottom-color:rgba(253,224,71,.1)"><span class="rule-dash" style="color:var(--dim)">—</span><span style="color:var(--mid)">Letzte Dosis <strong style="color:#FDE047">4h vor</strong> geplantem Schlaf</span></div>
-          <div class="rule-row" style="border-bottom-color:none"><span class="rule-dash" style="color:var(--dim)">—</span><span style="color:var(--mid)">Max <strong style="color:#FDE047">400mg in 8 Stunden</strong></span></div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- TAB 4: LOG -->
     <div class="tab" id="tab-log">
@@ -543,9 +556,6 @@
     <div class="nav-icon">👥</div><div class="nav-label">Crew</div>
   </button>
   <button class="nav-btn" data-tab="3" onclick="goTab(3)">
-    <div class="nav-icon">💤</div><div class="nav-label">Nap</div>
-  </button>
-  <button class="nav-btn" data-tab="4" onclick="goTab(4)">
     <div class="nav-icon">📊</div><div class="nav-label">Log</div>
   </button>
 </div>
@@ -581,16 +591,19 @@
     <div class="qr-app-title">📲 Als iPhone App installieren</div>
     <div class="qr-steps">
       <div class="qr-step">
+        <div class="qr-step-num">1</div>
         <div class="qr-step-ico">🔗</div>
-        <div class="qr-step-txt">Link öffnen im Safari</div>
+        <div class="qr-step-txt">Link oben kopieren und im <strong>Safari</strong> öffnen</div>
       </div>
       <div class="qr-step">
+        <div class="qr-step-num">2</div>
         <div class="qr-step-ico">⬆️</div>
-        <div class="qr-step-txt">Teilen-Button unten tippen</div>
+        <div class="qr-step-txt"><strong>Teilen-Button</strong> unten in der Mitte tippen</div>
       </div>
       <div class="qr-step">
+        <div class="qr-step-num">3</div>
         <div class="qr-step-ico">➕</div>
-        <div class="qr-step-txt">«Zum Home-Bildschirm»</div>
+        <div class="qr-step-txt"><strong>«Zum Home-Bildschirm»</strong> wählen &amp; hinzufügen</div>
       </div>
     </div>
   </div>
@@ -654,14 +667,17 @@ const NUT=[
 const START=new Date(2026,4,14,12,0,0);
 const WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MO=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
-const DAY_LABELS=['','Do 14. Mai','Fr 15. Mai','Sa 16. Mai','So 17. Mai','Mo 18. Mai'];
+const DAY_LABELS=['','Do 14. Mai','Fr 15. Mai','Sa 16. Mai','So 17. Mai','Mo 18. Mai','Di 19. Mai'];
 
 function rd(n){
   const p=PACE[(n-1)%24],nu=NUT[(n-1)%48];
   const d=new Date(START.getTime()+(n-1)*3600000);
   const h0=d.getHours().toString().padStart(2,'0');
   const h1=((d.getHours()+1)%24).toString().padStart(2,'0');
-  return{n,dayNum:Math.floor((n-1)/24)+1,wd:WD[d.getDay()],dt:`${d.getDate()}. ${MO[d.getMonth()]}`,
+  const startMidnight=new Date(START.getFullYear(),START.getMonth(),START.getDate());
+  const roundMidnight=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  const dayNum=Math.round((roundMidnight-startMidnight)/86400000)+1;
+  return{n,dayNum,wd:WD[d.getDay()],dt:`${d.getDate()}. ${MO[d.getMonth()]}`,
     t0:`${h0}:00`,t1:`${h1}:00`,startMs:d.getTime(),...p,...nu};
 }
 
@@ -711,6 +727,7 @@ function renderLog(){
         <div class="le-time">${e.time} Uhr</div>
         <div class="le-sp"></div>
         <div class="le-pace ${e.pace}">${e.pace}</div>
+        <button onclick="deleteLogEntry(${e.round})" style="background:none;border:none;color:var(--dim);font-size:20px;line-height:1;cursor:pointer;padding:0 0 0 8px;" title="Eintrag löschen">×</button>
       </div>
       <div class="le-body">
         <div class="le-row"><span class="le-lbl">Flasche</span><span class="le-val">${e.flasche}</span></div>
@@ -721,6 +738,13 @@ function renderLog(){
       </div>
     </div>`;
   }).join('');
+}
+
+function deleteLogEntry(roundNum){
+  if(!confirm('Eintrag Runde '+roundNum+' löschen?')) return;
+  logData=logData.filter(e=>e.round!==roundNum);
+  saveLog();
+  renderLog();
 }
 
 // ═══ PREP TOGGLE ═══
@@ -812,9 +836,9 @@ function save(){localStorage.setItem('byu_rd',curRound);}
 // ═══ TAB NAVIGATION ═══
 function goTab(i){
   curTab=i;
-  document.getElementById('swiper').style.transform=`translateX(-${i*20}%)`;
+  document.getElementById('swiper').style.transform=`translateX(-${i*25}%)`;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',+b.dataset.tab===i));
-  if(i===4)renderLog();
+  if(i===3)renderLog();
 }
 
 let tx=0,ty=0,dragging=false;
@@ -824,7 +848,7 @@ sw.addEventListener('touchend',e=>{
   if(!dragging)return;dragging=false;
   const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
   if(Math.abs(dx)>Math.abs(dy)*1.5&&Math.abs(dx)>40){
-    if(dx<0&&curTab<4)goTab(curTab+1);
+    if(dx<0&&curTab<3)goTab(curTab+1);
     else if(dx>0&&curTab>0)goTab(curTab-1);
   }
 },{passive:true});
@@ -941,30 +965,13 @@ function setFilter(f){planFilter=f;document.querySelectorAll('.pf').forEach(b=>b
 function toggleCheck(el){el.classList.toggle('done');el.querySelector('.chk').textContent=el.classList.contains('done')?'✓':'';}
 function resetChecklist(){document.querySelectorAll('.check-row').forEach(r=>{r.classList.remove('done');r.querySelector('.chk').textContent='';});}
 
-// ═══ NAP ═══
-function buildNap(){
-  const nights=[
-    {label:'Nacht 1 – Do→Fr',rds:[10,11,12,13,14,15,16,17]},
-    {label:'Nacht 2 – Fr→Sa',rds:[34,35,36,37,38,39,40,41]},
-    {label:'Nacht 3 – Sa→So',rds:[58,59,60,61,62,63,64,65]},
-    {label:'Nacht 4 – So→Mo',rds:[82,83,84,85,86,87,88,89]},
-    {label:'Nacht 5 – Mo→Di',rds:[106,107,108,109,110,111,112,113]},
-  ];
-  let html='';
-  nights.forEach(night=>{
-    const r0=rd(night.rds[0]);
-    html+=`<div class="nap-night-hdr">${night.label} · ab ${r0.t0} Uhr</div>`;
-    night.rds.forEach(n=>{
-      const r=rd(n);
-      html+=`<div class="nap-row ${r.nap?'window':''}">
-        <div class="nap-rd-time"><div class="nrt-rd">Rd ${n}</div><div class="nrt-t">${r.t0}</div></div>
-        <div class="nap-desc">${r.pace==='RECOVERY'?'Recovery – Essen, Dehnen':r.nap?'Schnell → Nap möglich':'Schnell → Pause nutzen'}</div>
-        ${r.nap?'<div class="nap-tag">💤 NAP</div>':''}
-      </div>`;
-    });
-  });
-  document.getElementById('nap-nights').innerHTML=html;
+// ═══ EMERGENCY POPUP ═══
+function toggleEmPopup(e){
+  e.stopPropagation();
+  document.getElementById('em-popup').classList.toggle('open');
 }
+document.addEventListener('click',()=>document.getElementById('em-popup').classList.remove('open'));
+document.getElementById('em-popup').addEventListener('click',e=>e.stopPropagation());
 
 // ═══ CLOCK ═══
 function updateClock(){
@@ -984,7 +991,7 @@ function updateClock(){
     document.getElementById('race-day-lbl').textContent='Witikon · Beendet';
   }
   if(autoMode){const detected=detectRound();if(detected&&detected!==curRound){curRound=detected;save();renderJetzt();}}
-  if(curTab===0)renderCountdown();
+  if(curTab===0){renderCountdown();updateNapTimerBtn();}
 }
 
 // ═══ WETTER ═══
@@ -1075,12 +1082,43 @@ function copyQrUrl(){
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
 
+// ═══ NAP TIMER ═══
+function calcNapSecs(){
+  const now=new Date();
+  let s=(57*60)-(now.getMinutes()*60+now.getSeconds());
+  if(s<=0) s+=3600;
+  return s;
+}
+function updateNapTimerBtn(){
+  const el=document.getElementById('nap-timer-until');
+  if(!el) return;
+  const s=calcNapSecs();
+  const m=Math.floor(s/60),ss=s%60;
+  el.textContent=`(${m}:${ss.toString().padStart(2,'0')} bis :57)`;
+}
+function startNapTimer(){
+  const s=calcNapSecs();
+  const m=Math.floor(s/60),ss=s%60;
+  window.open(`clock-timer://start?hours=0&minutes=${m}&seconds=${ss}`,'_self');
+  const btn=document.getElementById('nap-timer-btn');
+  if(btn){
+    const orig=btn.innerHTML;
+    btn.innerHTML='✓ Timer gestartet in Uhr-App';
+    btn.style.background='rgba(61,168,90,.2)';
+    btn.style.borderColor='rgba(61,168,90,.5)';
+    btn.style.color='var(--m-txt)';
+    setTimeout(()=>{btn.innerHTML=orig;btn.style.cssText='';},2500);
+  }
+}
+
 // ═══ INIT ═══
 const autoDetected=detectRound();
-if(autoDetected){curRound=autoDetected;autoMode=true;save();}
-buildPlan();buildNap();renderJetzt();renderLog();
-setInterval(updateClock,1000);updateClock();
-fetchWeather();setInterval(fetchWeather,10*60*1000);
+if(autoDetected){curRound=autoDetected;autoMode=true;}
+fetchWeather();
+renderJetzt();
+buildPlan();
+setInterval(updateClock,1000);
+setInterval(fetchWeather,600000);
 </script>
 </body>
 </html>
