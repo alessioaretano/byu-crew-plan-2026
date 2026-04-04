@@ -21,26 +21,22 @@
     html,body{height:100%;overflow:hidden;background:var(--bg);}
     body{color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent;}
 
-    /* TOP BAR */
     .top-bar{position:fixed;top:0;left:0;right:0;height:var(--top);background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top);}
     .brand{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--cream);letter-spacing:-.5px;}
     .top-right{text-align:right;}
     .live-clock{font-size:18px;font-weight:600;color:var(--cream);font-variant-numeric:tabular-nums;letter-spacing:-.5px;}
     .race-day{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;}
 
-    /* BOTTOM NAV */
     .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bot);background:var(--surface);border-top:1px solid var(--border);z-index:100;display:flex;padding-bottom:env(safe-area-inset-bottom);}
     .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--dim);cursor:pointer;min-height:44px;transition:color .15s;}
     .nav-btn.active{color:var(--cream);}
     .nav-icon{font-size:22px;line-height:1;}
     .nav-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
 
-    /* CONTENT */
     .content{position:fixed;top:var(--top);bottom:var(--bot);left:0;right:0;overflow:hidden;}
     .swiper{display:flex;width:400%;height:100%;transition:transform .32s cubic-bezier(.25,.46,.45,.94);will-change:transform;}
     .tab{width:25%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 
-    /* ── JETZT TAB ── */
     .hero{padding:20px 16px 0;}
     .hero-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
     .hero-rd{font-size:80px;font-weight:800;line-height:1;letter-spacing:-4px;color:var(--cream);}
@@ -52,7 +48,6 @@
     .hero-pace.RECOVERY{background:var(--r-bg);color:var(--r-txt);border:1px solid var(--r-bd);}
     .hero-time{font-size:15px;color:var(--mid);margin-top:4px;}
 
-    /* countdown */
     .countdown-box{margin:0 16px 14px;background:var(--card);border:1px solid var(--border2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
     .cd-left .cd-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);}
     .cd-left .cd-time{font-size:32px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--cream);line-height:1.1;}
@@ -61,13 +56,11 @@
     .cd-next-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;}
     .cd-next-time{font-size:15px;font-weight:700;color:var(--cream);font-variant-numeric:tabular-nums;}
 
-    /* nap alert */
     .nap-alert{margin:0 16px 14px;background:rgba(144,96,200,.14);border:1px solid rgba(144,96,200,.4);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
     .nap-alert .nap-ico{font-size:28px;}
     .nap-alert strong{display:block;font-size:15px;color:var(--nap-txt);font-weight:700;}
     .nap-alert span{font-size:13px;color:var(--mid);}
 
-    /* prep section */
     .prep{padding:0 16px 16px;}
     .prep-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
     .prep-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
@@ -86,7 +79,6 @@
     .prep-row.done .prep-check{background:var(--m-bg);border-color:var(--m-bd);}
     .elek-pill{display:inline-block;background:rgba(253,224,71,.1);color:#FDE047;border:1px solid rgba(253,224,71,.22);border-radius:6px;padding:3px 9px;font-size:13px;font-weight:600;}
 
-    /* upcoming */
     .upcoming{padding:0 16px 24px;}
     .upcoming-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
     .upcoming-item:last-child{border-bottom:none;}
@@ -99,7 +91,6 @@
     .upfood{flex:1;font-size:13px;color:var(--mid);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
     .upnap{color:var(--nap-txt);font-size:12px;flex-shrink:0;}
 
-    /* round controls */
     .rd-controls{display:flex;align-items:center;gap:16px;padding:16px;border-top:1px solid var(--border);}
     .rdc-btn{background:var(--card);border:1px solid var(--border2);border-radius:50%;width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--cream);cursor:pointer;flex-shrink:0;transition:transform .1s,background .1s;}
     .rdc-btn:active{transform:scale(.9);background:var(--border2);}
@@ -108,18 +99,15 @@
     .rdc-sync{background:none;border:1px solid var(--border2);border-radius:8px;color:var(--mid);font-size:12px;padding:7px 13px;cursor:pointer;margin-top:6px;}
     .rdc-sync:active{background:var(--border);}
 
-    /* auto banner */
     .auto-banner{margin:0 16px 14px;background:rgba(61,168,90,.1);border:1px solid rgba(61,168,90,.25);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--m-txt);display:flex;align-items:center;justify-content:space-between;gap:8px;}
     .auto-banner button{background:none;border:none;color:var(--m-acc);font-size:12px;cursor:pointer;white-space:nowrap;}
     .auto-banner.hidden{display:none;}
 
-    /* prerace */
     .prerace{margin:16px;background:rgba(216,104,24,.08);border:1px solid rgba(216,104,24,.3);border-radius:14px;padding:24px;text-align:center;}
     .prerace .pr-lbl{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
     .prerace .pr-time{font-size:32px;font-weight:800;color:var(--r-txt);font-variant-numeric:tabular-nums;line-height:1.1;}
     .prerace .pr-sub{font-size:13px;color:var(--mid);margin-top:8px;}
 
-    /* ── PLAN TAB ── */
     .plan-sticky{position:sticky;top:0;z-index:10;background:var(--bg);padding:12px 16px;border-bottom:1px solid var(--border);}
     .day-scroll{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:10px;}
     .day-scroll::-webkit-scrollbar{display:none;}
@@ -163,7 +151,6 @@
     .rc-elek{color:#FDE047;font-weight:600;}
     .rc-hint{font-size:12px;color:var(--mid);margin-top:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.05);font-style:italic;}
 
-    /* ── CREW TAB ── */
     .crew-pad{padding:16px;}
     .sec-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:24px 0 12px;display:flex;align-items:center;gap:8px;}
     .sec-title:first-child{margin-top:0;}
@@ -179,7 +166,6 @@
     .motto-card{background:linear-gradient(135deg, #1a0808 0%, #000 100%);border:1px solid var(--s-bd);border-radius:14px;padding:20px;text-align:center;margin-bottom:20px;}
     .motto-txt{font-family:Georgia,serif;font-size:20px;font-style:italic;color:var(--s-txt);font-weight:700;}
 
-    /* ── NAP TAB ── */
     .nap-pad{padding:16px;}
     .nap-night-hdr{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:20px 0 10px;}
     .nap-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--card);border:1px solid var(--border2);border-radius:10px;margin-bottom:6px;}
@@ -192,7 +178,9 @@
     .koffein-card{background:#1A1A08;border:1px solid #444414;border-radius:14px;padding:16px;margin-top:12px;}
     .koffein-card h3{font-size:14px;color:#FDE047;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;}
 
-    /* QR MODAL */
+    /* TEST BANNER */
+    .test-banner{background:rgba(224,80,80,.15);border:1px solid rgba(224,80,80,.4);border-radius:10px;margin:8px 16px;padding:8px 14px;font-size:12px;color:var(--s-txt);text-align:center;letter-spacing:.04em;}
+
     .qr-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
     .qr-inner{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:32px 24px;width:100%;max-width:340px;text-align:center;position:relative;}
     .qr-close{position:absolute;top:16px;right:16px;width:32px;height:32px;background:var(--card);border:1px solid var(--border2);border-radius:50%;color:var(--mid);font-size:20px;display:flex;align-items:center;justify-content:center;}
@@ -201,7 +189,6 @@
     .qr-img{margin-bottom:24px;display:flex;justify-content:center;}
     .qr-url{font-size:11px;color:var(--mid);word-break:break-all;background:var(--card);padding:10px;border-radius:8px;margin-bottom:16px;}
     .qr-note{font-size:12px;color:var(--dim);line-height:1.5;}
-    .qr-public{margin-top:12px;font-size:11px;color:var(--mid);padding-top:12px;border-top:1px solid var(--border);}
 
     .hidden{display:none;}
   </style>
@@ -219,9 +206,9 @@
 <div class="content">
   <div class="swiper" id="swiper">
 
-    <!-- ═══ TAB 0: JETZT ═══ -->
+    <!-- TAB 0: JETZT -->
     <div class="tab" id="tab-jetzt">
-      
+
       <div id="prerace-box" class="prerace hidden">
         <div class="pr-lbl">Rennen Starten in:</div>
         <div class="pr-time" id="prerace-time">00:00:00</div>
@@ -234,7 +221,7 @@
           <div class="hero-meta">
             <div class="hero-phase" id="h-phase">Tag</div>
             <div class="hero-pace RECOVERY" id="h-pace">RECOVERY · 53–55 min</div>
-            <div class="hero-time" id="h-time">12:00 – 13:00</div>
+            <div class="hero-time" id="h-time">08:00 – 09:00</div>
           </div>
         </div>
       </div>
@@ -247,7 +234,7 @@
         </div>
         <div class="cd-right">
           <div class="cd-next-lbl">Nächster Start</div>
-          <div class="cd-next-time" id="cd-next">13:00 Uhr</div>
+          <div class="cd-next-time" id="cd-next">09:00 Uhr</div>
         </div>
       </div>
 
@@ -264,7 +251,6 @@
         </div>
       </div>
 
-      <!-- prep current -->
       <div class="prep">
         <div class="prep-lbl">Runde <span id="prep-rd">1</span> – Jetzt bereitstellen</div>
         <div class="prep-card">
@@ -295,7 +281,6 @@
         </div>
       </div>
 
-      <!-- next round -->
       <div class="prep">
         <div class="prep-lbl">Nächste Runde <span id="next-rd-num">2</span> – vorbereiten</div>
         <div class="prep-card" id="next-card">
@@ -316,13 +301,11 @@
         </div>
       </div>
 
-      <!-- upcoming -->
       <div class="upcoming">
         <div class="prep-lbl">Vorschau</div>
         <div id="upcoming-list"></div>
       </div>
 
-      <!-- controls -->
       <div class="rd-controls">
         <button class="rdc-btn" onclick="changeRound(-1)">−</button>
         <div class="rdc-center">
@@ -332,9 +315,9 @@
         <button class="rdc-btn" onclick="changeRound(+1)">+</button>
       </div>
 
-    </div><!-- /tab-jetzt -->
+    </div>
 
-    <!-- ═══ TAB 1: PLAN ═══ -->
+    <!-- TAB 1: PLAN -->
     <div class="tab" id="tab-plan">
       <div class="plan-sticky">
         <div class="day-scroll" id="day-tabs">
@@ -355,7 +338,7 @@
       <div class="rounds-list" id="rounds-list"></div>
     </div>
 
-    <!-- ═══ TAB 2: CREW ═══ -->
+    <!-- TAB 2: CREW -->
     <div class="tab" id="tab-crew">
       <div class="crew-pad">
 
@@ -412,7 +395,7 @@
       </div>
     </div>
 
-    <!-- ═══ TAB 3: NAP ═══ -->
+    <!-- TAB 3: NAP -->
     <div class="tab" id="tab-nap">
       <div class="nap-pad">
 
@@ -439,10 +422,9 @@
       </div>
     </div>
 
-  </div><!-- /swiper -->
-</div><!-- /content -->
+  </div>
+</div>
 
-<!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <button class="nav-btn active" data-tab="0" onclick="goTab(0)">
     <div class="nav-icon">⚡</div><div class="nav-label">Jetzt</div>
@@ -462,17 +444,15 @@
 <div class="qr-modal" id="qr-modal">
   <div class="qr-inner">
     <button class="qr-close" onclick="document.getElementById('qr-modal').style.display='none'">×</button>
-    <div class="qr-ttl">Crew Plan öffnen auf</div>
-    <div class="qr-sub">Witiker BYU 2026</div>
+    <div class="qr-ttl">Crew Plan öffnen</div>
+    <div class="qr-sub">Witikon BYU 2026</div>
     <div class="qr-img" id="qr-img"></div>
     <div class="qr-url" id="qr-url"></div>
-    <div class="qr-note">Alle Crew-Mitglieder ins gleiche WLAN/Hotspot, dann QR scannen.</div>
-    <div class="qr-public">Für öffentlichen Link: <strong>netlify.com/drop</strong> → HTML-Datei hinziehen</div>
+    <div class="qr-note">Link einfach aufrufen – funktioniert überall, kein gemeinsames WLAN nötig.</div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════
 const PACE = [
   {phase:"Tag",    pace:"RECOVERY",ziel:"53–55 min",hinweis:"Erste Runde bewusst langsam. Ankommen, Rhythmus finden.",nap:false},
   {phase:"Tag",    pace:"MITTEL",  ziel:"48–52 min",hinweis:"Eingrooven. HR Zone 1–2. Viel gehen bergauf.",nap:false},
@@ -552,6 +532,7 @@ const NUT = [
 ];
 
 const START = new Date(2026,4,14,12,0,0);
+
 const WD    = ['So','Mo','Di','Mi','Do','Fr','Sa'];
 const MO    = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
 const DAY_LABELS = ['','Do 14. Mai','Fr 15. Mai','Sa 16. Mai','So 17. Mai','Mo 18. Mai'];
@@ -566,14 +547,12 @@ function rd(n){
     t0:`${h0}:00`,t1:`${h1}:00`,startMs:d.getTime(),...p,...nu};
 }
 
-// ═══ STATE ═══
 let curRound = parseInt(localStorage.getItem('byu_rd')||'1');
 let autoMode = false;
 let planFilter = 'all';
 let planDay = 0;
 let curTab = 0;
 
-// ═══ AUTO-DETECT ═══
 function detectRound(){
   const now = Date.now();
   if(now < START.getTime()) return null;
@@ -588,14 +567,12 @@ function syncToTime(){
 function disableAuto(){ autoMode=false; document.getElementById('auto-banner').classList.add('hidden'); }
 function save(){ localStorage.setItem('byu_rd', curRound); }
 
-// ═══ TAB NAVIGATION ═══
 function goTab(i){
   curTab=i;
   document.getElementById('swiper').style.transform=`translateX(-${i*25}%)`;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',+b.dataset.tab===i));
 }
 
-// swipe
 let tx=0,ty=0,dragging=false;
 const sw=document.getElementById('swiper');
 sw.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;dragging=true;},{passive:true});
@@ -609,12 +586,8 @@ sw.addEventListener('touchend',e=>{
   }
 },{passive:true});
 
-// ═══ JETZT ═══
 function renderJetzt(){
   const r = rd(curRound);
-  const now = Date.now();
-
-  // hero
   document.getElementById('h-rd').textContent = curRound;
   document.getElementById('h-phase').textContent = r.phase;
   const hp = document.getElementById('h-pace');
@@ -622,23 +595,17 @@ function renderJetzt(){
   hp.className = 'hero-pace ' + r.pace;
   document.getElementById('h-time').textContent = `${r.t0} – ${r.t1}`;
 
-  // prep
   document.getElementById('prep-rd').textContent = curRound;
   document.getElementById('prep-flasche').textContent = r.f === 'Wasser' ? 'Wasser 💧' : 'MNSTRY ' + r.f;
   document.getElementById('prep-essen').textContent = r.e;
-  const elRow = document.getElementById('prep-elek-row');
   if(r.el === '–'){
     document.getElementById('prep-elek').innerHTML = '<span style="color:var(--dim)">Keine</span>';
   } else {
     document.getElementById('prep-elek').innerHTML = `<span class="elek-pill">${r.el}</span>`;
   }
-  // Reset prep checks when round changes
   document.querySelectorAll('.prep-row').forEach(row => row.classList.remove('done'));
-
-  // nap
   document.getElementById('nap-alert').classList.toggle('hidden',!r.nap);
 
-  // next round
   const next = curRound < 120 ? rd(curRound+1) : null;
   document.getElementById('next-rd-num').textContent = curRound+1;
   if(next){
@@ -649,10 +616,8 @@ function renderJetzt(){
     document.getElementById('next-card').style.display='none';
   }
 
-  // countdown
   renderCountdown();
 
-  // upcoming (next 5 after current)
   let upHtml='';
   for(let i=1;i<=5;i++){
     const nn=curRound+i;
@@ -668,13 +633,11 @@ function renderJetzt(){
   }
   document.getElementById('upcoming-list').innerHTML=upHtml;
 
-  // auto banner
   const detected = detectRound();
   if(detected && autoMode){
     document.getElementById('auto-banner').classList.remove('hidden');
   }
 
-  // prerace
   const pr = document.getElementById('prerace-box');
   if(Date.now() < START.getTime()){
     pr.classList.remove('hidden');
@@ -682,7 +645,6 @@ function renderJetzt(){
     pr.classList.add('hidden');
   }
 
-  // update plan current highlight
   document.querySelectorAll('.rcard').forEach(c=>{
     const n=parseInt(c.dataset.round);
     c.classList.toggle('is-current',n===curRound);
@@ -690,9 +652,7 @@ function renderJetzt(){
   });
 }
 
-function togglePrep(el){
-  el.classList.toggle('done');
-}
+function togglePrep(el){ el.classList.toggle('done'); }
 
 function fmtMin(ms){
   if(ms<=0)return '0:00';
@@ -707,7 +667,6 @@ function changeRound(d){
   save(); renderJetzt();
 }
 
-// ═══ PLAN ═══
 function buildPlan(){
   let html=''; let lastDay=0;
   for(let n=1;n<=120;n++){
@@ -765,22 +724,21 @@ function setFilter(f){
   applyPlanFilters();
 }
 
-// ═══ CREW CHECKLIST ═══
 function toggleCheck(el){ el.classList.toggle('done'); el.querySelector('.chk').textContent=el.classList.contains('done')?'✓':''; }
 function resetChecklist(){ document.querySelectorAll('.check-row').forEach(r=>{r.classList.remove('done');r.querySelector('.chk').textContent='';}); }
 
-// ═══ NAP TAB ═══
 function buildNap(){
   const nights=[
-    {label:'Nacht 1 – Do→Fr (21–06 Uhr)',rds:[10,11,12,13,14,15,16,17]},
-    {label:'Nacht 2 – Fr→Sa (21–06 Uhr)',rds:[34,35,36,37,38,39,40,41]},
-    {label:'Nacht 3 – Sa→So (21–06 Uhr)',rds:[58,59,60,61,62,63,64,65]},
-    {label:'Nacht 4 – So→Mo (21–06 Uhr)',rds:[82,83,84,85,86,87,88,89]},
-    {label:'Nacht 5 – Mo→Di (21–06 Uhr)',rds:[106,107,108,109,110,111,112,113]},
+    {label:'Nacht 1',rds:[10,11,12,13,14,15,16,17]},
+    {label:'Nacht 2',rds:[34,35,36,37,38,39,40,41]},
+    {label:'Nacht 3',rds:[58,59,60,61,62,63,64,65]},
+    {label:'Nacht 4',rds:[82,83,84,85,86,87,88,89]},
+    {label:'Nacht 5',rds:[106,107,108,109,110,111,112,113]},
   ];
   let html='';
   nights.forEach(night=>{
-    html+=`<div class="nap-night-hdr">${night.label}</div>`;
+    const r0=rd(night.rds[0]);
+    html+=`<div class="nap-night-hdr">${night.label} · ab ${r0.t0} Uhr</div>`;
     night.rds.forEach(n=>{
       const r=rd(n);
       const isNap=r.nap;
@@ -794,7 +752,6 @@ function buildNap(){
   document.getElementById('nap-nights').innerHTML=html;
 }
 
-// ═══ CLOCK + LIVE UPDATE ═══
 function updateClock(){
   const now=new Date();
   const hh=now.getHours().toString().padStart(2,'0');
@@ -808,22 +765,21 @@ function updateClock(){
     document.getElementById('race-day-lbl').textContent=`Tag ${dayN} · Witikon`;
     document.getElementById('race-status').textContent=`Runde ${Math.floor(elapsed)+1} läuft`;
   } else if(elapsed<0){
+    document.getElementById('race-day-lbl').textContent='Do 14. Mai · 12:00';
     document.getElementById('race-status').textContent='Vor dem Start';
-    // prerace countdown
     const ms=START-now;
     document.getElementById('prerace-time').textContent=fmtHMS(ms);
     document.getElementById('prerace-box').classList.remove('hidden');
   } else {
+    document.getElementById('race-day-lbl').textContent='Witikon · Beendet';
     document.getElementById('race-status').textContent='Rennen beendet';
   }
 
-  // auto-mode: update curRound every 30s
   if(autoMode){
     const detected=detectRound();
     if(detected&&detected!==curRound){curRound=detected;save();renderJetzt();}
   }
 
-  // refresh countdown every second
   if(curTab===0) renderCountdown();
 }
 
@@ -831,9 +787,8 @@ function renderCountdown(){
   const r=rd(curRound);
   const now=Date.now();
   const next = curRound < 120 ? rd(curRound+1) : null;
-  
+
   if(now < START.getTime()){
-    // Vor dem Rennen
     const ms = START.getTime() - now;
     document.getElementById('cd-lbl').textContent = 'Rennen startet in';
     document.getElementById('cd-time').textContent = fmtHMS(ms);
@@ -845,7 +800,7 @@ function renderCountdown(){
   const paceMin=r.pace==='SCHNELL'?43:r.pace==='MITTEL'?50:54;
   const expectedReturn=r.startMs+paceMin*60000;
   const msLeft=expectedReturn-now;
-  
+
   if(now<r.startMs){
     document.getElementById('cd-lbl').textContent='Runde beginnt in';
     document.getElementById('cd-time').textContent=fmtMin(r.startMs-now);
@@ -856,8 +811,9 @@ function renderCountdown(){
     document.getElementById('cd-sub').textContent=`${r.pace} · ca. ${paceMin} min`;
   } else {
     document.getElementById('cd-lbl').textContent='Läufer erwartet';
+    const msToNext = next ? next.startMs - now : 0;
     document.getElementById('cd-time').textContent='Jederzeit';
-    document.getElementById('cd-sub').textContent='Nächste Runde um ' + (next?next.t0:'—');
+    document.getElementById('cd-sub').textContent='Nächste Runde um ' + (next?next.t0:'—') + (next && msToNext > 0 ? ' · in ' + fmtMin(msToNext) : '');
   }
   document.getElementById('cd-next').textContent = next ? next.t0+' Uhr' : '—';
 }
@@ -867,14 +823,10 @@ function fmtHMS(ms){
   const h=Math.floor((ms%86400000)/3600000);
   const m=Math.floor((ms%3600000)/60000);
   const s=Math.floor((ms%60000)/1000);
-  
-  if(d > 0) {
-    return `${d}d ${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-  }
+  if(d > 0) return `${d}d ${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
   return `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
 }
 
-// ═══ QR ═══
 function showQR(){
   const url = "https://alessioaretano.github.io/byu-crew-plan-2026/";
   document.getElementById('qr-img').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}" width="200" height="200" style="display:block;border-radius:4px">`;
@@ -883,7 +835,7 @@ function showQR(){
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
 
-// ═══ INIT ═══
+// INIT
 const autoDetected=detectRound();
 if(autoDetected){curRound=autoDetected;autoMode=true;save();}
 
