@@ -32,13 +32,13 @@
     .live-clock{font-size:18px;font-weight:600;color:var(--cream);font-variant-numeric:tabular-nums;letter-spacing:-.5px;}
     .race-day{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;}
 
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--bot);background:var(--surface);border-top:1px solid var(--border);z-index:100;display:flex;padding-bottom:env(safe-area-inset-bottom);}
-    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--dim);cursor:pointer;min-height:44px;transition:color .15s;}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--bot) + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--border);z-index:100;display:flex;padding-bottom:env(safe-area-inset-bottom);}
+    .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--dim);cursor:pointer;padding:0;min-height:44px;transition:color .15s;}
     .nav-btn.active{color:var(--cream);}
-    .nav-icon{font-size:20px;line-height:1;}
-    .nav-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+    .nav-icon{font-size:22px;line-height:1;}
+    .nav-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1;}
 
-    .content{position:fixed;top:calc(var(--top) + env(safe-area-inset-top));bottom:var(--bot);left:0;right:0;overflow:hidden;}
+    .content{position:fixed;top:calc(var(--top) + env(safe-area-inset-top));bottom:calc(var(--bot) + env(safe-area-inset-bottom));left:0;right:0;overflow:hidden;}
     .swiper{display:flex;width:400%;height:100%;transition:transform .32s cubic-bezier(.25,.46,.45,.94);will-change:transform;}
     .tab{width:25%;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 
@@ -645,14 +645,24 @@
     <div class="em-orig">Original: <b id="em-orig-val">—</b></div>
     <textarea class="em-input" id="em-input" placeholder="Was isst Alessio jetzt? z.B. ½ Banane + Salzbrezel" maxlength="120"></textarea>
     <div class="em-quick">
-      <span class="em-quick-chip" onclick="emQuick('Cola + Salzstangen')">Cola + Salzstangen</span>
+      <span class="em-quick-chip" onclick="emQuick('Toast mit Nutella')">Toast Nutella</span>
+      <span class="em-quick-chip" onclick="emQuick('Toast mit Biscoff')">Toast Biscoff</span>
       <span class="em-quick-chip" onclick="emQuick('Bouillon')">Bouillon</span>
-      <span class="em-quick-chip" onclick="emQuick('Ingwertee')">Ingwertee</span>
-      <span class="em-quick-chip" onclick="emQuick('½ Banane')">½ Banane</span>
       <span class="em-quick-chip" onclick="emQuick('Reisbrei')">Reisbrei</span>
-      <span class="em-quick-chip" onclick="emQuick('Nichts (kein Hunger)')">Nichts</span>
+      <span class="em-quick-chip" onclick="emQuick('Pasta')">Pasta</span>
       <span class="em-quick-chip" onclick="emQuick('Kartoffel mit Salz')">Kartoffel</span>
-      <span class="em-quick-chip" onclick="emQuick('Brötli mit Honig')">Brötli + Honig</span>
+      <span class="em-quick-chip" onclick="emQuick('Cornflakes')">Cornflakes</span>
+      <span class="em-quick-chip" onclick="emQuick('Müsli-Riegel')">Müsli-Riegel</span>
+      <span class="em-quick-chip" onclick="emQuick('½ Banane')">½ Banane</span>
+      <span class="em-quick-chip" onclick="emQuick('1 Banane')">1 Banane</span>
+      <span class="em-quick-chip" onclick="emQuick('Pringles')">Pringles</span>
+      <span class="em-quick-chip" onclick="emQuick('Salzstangen')">Salzstangen</span>
+      <span class="em-quick-chip" onclick="emQuick('Energiegel')">Energiegel</span>
+      <span class="em-quick-chip" onclick="emQuick('Cola')">Cola</span>
+      <span class="em-quick-chip" onclick="emQuick('Orangensaft')">Orangensaft</span>
+      <span class="em-quick-chip" onclick="emQuick('Ingwer / Ingwertee')">Ingwer / Tee</span>
+      <span class="em-quick-chip" onclick="emQuick('Koffein')">Koffein</span>
+      <span class="em-quick-chip" onclick="emQuick('Nichts (kein Hunger)')">Nichts</span>
     </div>
     <div class="em-actions">
       <button class="em-btn em-btn-cancel" onclick="closeEssenEdit()">Abbrechen</button>
