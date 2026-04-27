@@ -8,7 +8,9 @@
   <title>BYU 2026 · Crew</title>
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-title" content="Alessios Crew">
+  <meta name="theme-color" content="#0D0D0D">
   <style>
     :root {
       --bg:#000; --surface:#0D0D0D; --card:#141414; --card2:#1C1C1C;
@@ -282,6 +284,44 @@
     .nt-btn:active{background:rgba(144,96,200,.35);}
 
     .hidden{display:none;}
+
+    /* ESSEN EDIT */
+    .edit-pen{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--mid);background:var(--card2);border:1px solid var(--border2);border-radius:8px;cursor:pointer;flex-shrink:0;margin-right:6px;transition:background .15s,color .15s;}
+    .edit-pen:active{background:var(--border2);color:var(--cream);}
+    .edit-pen.has-override{color:#FDE047;border-color:rgba(253,224,71,.4);background:rgba(253,224,71,.08);}
+    .essen-override-mark{display:inline-block;color:#FDE047;font-size:11px;margin-left:4px;}
+    .rc-row .edit-pen-inline{width:20px;height:20px;font-size:11px;border-radius:5px;margin-left:6px;display:inline-flex;}
+
+    .essen-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.92);z-index:1200;display:none;align-items:flex-end;justify-content:center;padding:0;}
+    .essen-modal.open{display:flex;}
+    .em-inner{background:var(--surface);border:1px solid var(--border2);border-radius:24px 24px 0 0;padding:20px 16px calc(24px + env(safe-area-inset-bottom));width:100%;max-width:520px;}
+    .em-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 14px;}
+    .em-ttl{font-size:16px;font-weight:700;color:var(--cream);text-align:center;margin-bottom:4px;}
+    .em-sub{font-size:12px;color:var(--dim);text-align:center;margin-bottom:14px;}
+    .em-orig{font-size:13px;color:var(--mid);background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px;}
+    .em-orig b{color:var(--text);font-weight:600;}
+    .em-input{width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:12px;color:var(--text);font-size:16px;padding:14px;margin-bottom:10px;font-family:inherit;resize:none;height:80px;-webkit-appearance:none;}
+    .em-input:focus{outline:none;border-color:var(--m-bd);}
+    .em-quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+    .em-quick-chip{background:var(--card);border:1px solid var(--border2);border-radius:18px;padding:6px 12px;font-size:12px;color:var(--mid);cursor:pointer;}
+    .em-quick-chip:active{background:var(--border2);color:var(--cream);}
+    .em-actions{display:flex;gap:8px;}
+    .em-btn{flex:1;border:1px solid var(--border2);border-radius:10px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;}
+    .em-btn-cancel{background:var(--card);color:var(--mid);}
+    .em-btn-reset{background:var(--card);color:var(--r-txt);border-color:var(--r-bd);}
+    .em-btn-save{background:var(--m-bg);color:var(--m-txt);border-color:var(--m-bd);}
+    .em-btn:active{transform:scale(.98);}
+
+    /* NAP TIMER OVERLAY */
+    .nap-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(144,96,200,.95);z-index:1500;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:24px;}
+    .nap-overlay.open{display:flex;}
+    .nap-overlay.alarm{background:rgba(224,80,80,.95);animation:napPulse .5s infinite;}
+    @keyframes napPulse{0%,100%{background:rgba(224,80,80,.95);}50%{background:rgba(255,140,140,.95);}}
+    .nap-state{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.85;margin-bottom:14px;}
+    .nap-cd{font-size:88px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-2px;}
+    .nap-msg{font-size:16px;margin-top:16px;opacity:.9;max-width:300px;line-height:1.4;}
+    .nap-stop{margin-top:32px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.4);border-radius:12px;color:#fff;font-size:15px;font-weight:600;padding:14px 28px;cursor:pointer;font-family:inherit;}
+    .nap-stop:active{background:rgba(0,0,0,.6);}
   </style>
 </head>
 <body>
@@ -388,13 +428,14 @@
             </div>
             <div class="prep-check" id="chk-flasche"></div>
           </div>
-          <div class="prep-row" id="prep-row-essen" onclick="togglePrep(this,'essen')">
+          <div class="prep-row" id="prep-row-essen">
             <div class="prep-ico">🍽️</div>
-            <div class="prep-content">
+            <div class="prep-content" onclick="togglePrep(document.getElementById('prep-row-essen'),'essen')">
               <div class="prep-item-lbl">Essen in der Pause</div>
               <div class="prep-item-val big" id="prep-essen">—</div>
             </div>
-            <div class="prep-check" id="chk-essen"></div>
+            <div class="edit-pen" id="edit-pen-essen" onclick="openEssenEdit(curRound)" title="Essen anpassen">✎</div>
+            <div class="prep-check" id="chk-essen" onclick="togglePrep(document.getElementById('prep-row-essen'),'essen')"></div>
           </div>
           <div class="prep-row" id="prep-row-elek" onclick="togglePrep(this,'elek')">
             <div class="prep-ico">💊</div>
@@ -454,6 +495,7 @@
               <div class="prep-item-lbl">Essen</div>
               <div class="prep-item-val" id="next-essen">—</div>
             </div>
+            <div class="edit-pen" id="edit-pen-next-essen" onclick="openEssenEdit(curRound+1)" title="Essen anpassen">✎</div>
           </div>
         </div>
       </div>
@@ -586,6 +628,40 @@
   </div>
 </div>
 
+<!-- NAP TIMER OVERLAY -->
+<div class="nap-overlay" id="nap-overlay">
+  <div class="nap-state" id="nap-state">Mikro-Nap läuft</div>
+  <div class="nap-cd" id="nap-cd">00:00</div>
+  <div class="nap-msg" id="nap-msg">Bei :57 wirst du geweckt. Crew: Tipp aufs «Wecker stellen» nicht versehentlich.</div>
+  <button class="nap-stop" onclick="stopNapTimer()">Abbrechen</button>
+</div>
+
+<!-- ESSEN EDIT MODAL -->
+<div class="essen-modal" id="essen-modal" onclick="if(event.target===this)closeEssenEdit()">
+  <div class="em-inner">
+    <div class="em-handle"></div>
+    <div class="em-ttl">Essen anpassen</div>
+    <div class="em-sub" id="em-sub">Runde —</div>
+    <div class="em-orig">Original: <b id="em-orig-val">—</b></div>
+    <textarea class="em-input" id="em-input" placeholder="Was isst Alessio jetzt? z.B. ½ Banane + Salzbrezel" maxlength="120"></textarea>
+    <div class="em-quick">
+      <span class="em-quick-chip" onclick="emQuick('Cola + Salzstangen')">Cola + Salzstangen</span>
+      <span class="em-quick-chip" onclick="emQuick('Bouillon')">Bouillon</span>
+      <span class="em-quick-chip" onclick="emQuick('Ingwertee')">Ingwertee</span>
+      <span class="em-quick-chip" onclick="emQuick('½ Banane')">½ Banane</span>
+      <span class="em-quick-chip" onclick="emQuick('Reisbrei')">Reisbrei</span>
+      <span class="em-quick-chip" onclick="emQuick('Nichts (kein Hunger)')">Nichts</span>
+      <span class="em-quick-chip" onclick="emQuick('Kartoffel mit Salz')">Kartoffel</span>
+      <span class="em-quick-chip" onclick="emQuick('Brötli mit Honig')">Brötli + Honig</span>
+    </div>
+    <div class="em-actions">
+      <button class="em-btn em-btn-cancel" onclick="closeEssenEdit()">Abbrechen</button>
+      <button class="em-btn em-btn-reset" onclick="resetEssenOverride()">Original</button>
+      <button class="em-btn em-btn-save" onclick="saveEssenOverride()">Speichern</button>
+    </div>
+  </div>
+</div>
+
 <!-- QR MODAL -->
 <div class="qr-modal" id="qr-modal">
   <div class="qr-inner">
@@ -697,6 +773,60 @@ let curRound=parseInt(localStorage.getItem('byu_rd')||'1');
 let autoMode=false,planFilter='all',planDay=0,curTab=0;
 let prepState={flasche:false,essen:false,elek:false};
 
+// ═══ ESSEN OVERRIDES (Crew kann Essen pro Runde anpassen) ═══
+let essenOverrides=JSON.parse(localStorage.getItem('byu_essen_overrides')||'{}');
+function saveEssenOverrides(){localStorage.setItem('byu_essen_overrides',JSON.stringify(essenOverrides));}
+function essenFor(n){return essenOverrides[n]||rd(n).e;}
+function hasEssenOverride(n){return !!essenOverrides[n];}
+
+let editingRound=null;
+function openEssenEdit(n){
+  if(n<1||n>120)return;
+  editingRound=n;
+  const r=rd(n);
+  document.getElementById('em-sub').textContent=`Runde ${n} · ${r.t0}–${r.t1} Uhr · ${r.pace}`;
+  document.getElementById('em-orig-val').textContent=r.e;
+  document.getElementById('em-input').value=essenOverrides[n]||'';
+  document.getElementById('essen-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('em-input').focus(),120);
+}
+function closeEssenEdit(){
+  document.getElementById('essen-modal').classList.remove('open');
+  editingRound=null;
+}
+function emQuick(text){
+  const inp=document.getElementById('em-input');
+  inp.value=text;
+}
+function saveEssenOverride(){
+  if(editingRound==null)return;
+  const v=document.getElementById('em-input').value.trim();
+  if(!v){delete essenOverrides[editingRound];}
+  else{essenOverrides[editingRound]=v;}
+  saveEssenOverrides();
+  closeEssenEdit();
+  renderJetzt();
+  buildPlan();
+  // Wenn Override für aktuelle Runde gesetzt + bereits geloggt → Log aktualisieren
+  const idx=logData.findIndex(e=>e.round===editingRound);
+  if(idx>=0){logData[idx].essen=v||rd(editingRound).e;saveLog();renderLog();}
+}
+function resetEssenOverride(){
+  if(editingRound==null)return;
+  delete essenOverrides[editingRound];
+  saveEssenOverrides();
+  closeEssenEdit();
+  renderJetzt();
+  buildPlan();
+}
+
+// ═══ PREP STATE PERSISTENCE (pro Runde) ═══
+function loadPrepState(n){
+  const raw=localStorage.getItem('byu_prep_'+n);
+  return raw?JSON.parse(raw):{flasche:false,essen:false,elek:false};
+}
+function persistPrepState(n,s){localStorage.setItem('byu_prep_'+n,JSON.stringify(s));}
+
 // ═══ LOG ═══
 let logData=JSON.parse(localStorage.getItem('byu_log')||'[]');
 
@@ -706,12 +836,15 @@ function addLogEntry(roundNum,prepDone,issues,note){
   const r=rd(roundNum);
   const now=new Date();
   const existing=logData.findIndex(e=>e.round===roundNum);
+  const essen=essenFor(roundNum);
   const entry={
     round:roundNum,
     time:`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`,
     pace:r.pace,phase:r.phase,
     flasche:r.f==='Wasser'?'Wasser':('MNSTRY '+r.f),
-    essen:r.e,elek:r.el,
+    essen:essen,
+    essenOverride:hasEssenOverride(roundNum)?r.e:null,
+    elek:r.el,
     prepDone,issues,
     note:note||'',
     ts:Date.now()
@@ -732,6 +865,9 @@ function renderLog(){
   list.innerHTML=logData.slice().reverse().map(e=>{
     const issueHtml=e.issues&&e.issues.length?`<div class="le-issues">${e.issues.map(i=>`<span class="le-issue">${i}</span>`).join('')}</div>`:'';
     const prepIcons=[e.prepDone&&e.prepDone.flasche?'🥤':'',e.prepDone&&e.prepDone.essen?'🍽️':'',e.prepDone&&e.prepDone.elek?'💊':''].filter(Boolean).join(' ');
+    const essenLine=e.essenOverride
+      ?`<span class="le-val">${e.essen} <span class="essen-override-mark">✎ statt: ${e.essenOverride}</span></span>`
+      :`<span class="le-val">${e.essen}</span>`;
     return`<div class="log-entry">
       <div class="le-top">
         <div class="le-rd">${e.round}</div>
@@ -741,7 +877,7 @@ function renderLog(){
       </div>
       <div class="le-body">
         <div class="le-row"><span class="le-lbl">Flasche</span><span class="le-val">${e.flasche}</span></div>
-        <div class="le-row"><span class="le-lbl">Essen</span><span class="le-val">${e.essen}</span></div>
+        <div class="le-row"><span class="le-lbl">Essen</span>${essenLine}</div>
         ${prepIcons?`<div class="le-row"><span class="le-lbl">Abgehakt</span><span class="le-val">${prepIcons}</span></div>`:''}
         ${issueHtml}
         ${e.note?`<div class="le-note">📝 ${e.note}</div>`:''}
@@ -757,7 +893,8 @@ function togglePrep(el,key){
   prepState[key]=done;
   const chk=document.getElementById('chk-'+key);
   if(chk) chk.textContent=done?'✓':'';
-  // Auto-log wenn alle 3 abgehakt
+  persistPrepState(curRound,prepState);
+  // Auto-log wenn Flasche + Essen abgehakt
   if(prepState.flasche&&prepState.essen){
     const issues=getActiveChips();
     addLogEntry(curRound,{...prepState},issues);
@@ -867,28 +1004,42 @@ function renderJetzt(){
   document.getElementById('prep-rd').textContent=curRound;
   document.getElementById('lq-rd').textContent=curRound;
   document.getElementById('prep-flasche').textContent=r.f==='Wasser'?'Wasser 💧':'MNSTRY '+r.f;
-  document.getElementById('prep-essen').textContent=r.e;
+  // Essen mit Override + Indikator
+  const curEssen=essenFor(curRound);
+  const curOverride=hasEssenOverride(curRound);
+  document.getElementById('prep-essen').innerHTML=curOverride
+    ? `${curEssen} <span class="essen-override-mark">✎</span>`
+    : curEssen;
+  document.getElementById('edit-pen-essen').classList.toggle('has-override',curOverride);
   document.getElementById('prep-elek').innerHTML=r.el==='–'?'<span style="color:var(--dim)">Keine</span>':`<span class="elek-pill">${r.el}</span>`;
-  // Reset prep checks
+  // Persisted prep state für aktuelle Runde laden (nicht resetten beim Re-Render!)
+  prepState=loadPrepState(curRound);
   ['flasche','essen','elek'].forEach(k=>{
-    document.getElementById('prep-row-'+k).classList.remove('done');
-    document.getElementById('chk-'+k).textContent='';
-    prepState[k]=false;
+    const row=document.getElementById('prep-row-'+k);
+    const chk=document.getElementById('chk-'+k);
+    row.classList.toggle('done',!!prepState[k]);
+    chk.textContent=prepState[k]?'✓':'';
   });
-  // Reset chips
+  // Reset chips beim Rundenwechsel
   document.querySelectorAll('#lq-chips .lq-chip').forEach(c=>c.classList.remove('active'));
   document.getElementById('nap-alert').classList.toggle('hidden',!r.nap);
   const next=curRound<120?rd(curRound+1):null;
   document.getElementById('next-rd-num').textContent=curRound+1;
   if(next){
     document.getElementById('next-flasche').textContent=next.f==='Wasser'?'Wasser 💧':'MNSTRY '+next.f;
-    document.getElementById('next-essen').textContent=next.e;
+    const nextEssen=essenFor(curRound+1);
+    const nextOv=hasEssenOverride(curRound+1);
+    document.getElementById('next-essen').innerHTML=nextOv
+      ? `${nextEssen} <span class="essen-override-mark">✎</span>`
+      : nextEssen;
+    document.getElementById('edit-pen-next-essen').classList.toggle('has-override',nextOv);
     document.getElementById('next-card').style.display='';
   } else {document.getElementById('next-card').style.display='none';}
   renderCountdown();
   let upHtml='';
   for(let i=1;i<=5;i++){const nn=curRound+i;if(nn>120)break;const rr=rd(nn);
-    upHtml+=`<div class="upcoming-item"><div class="uprd">${nn}</div><div class="uptime">${rr.t0}</div><div class="updot ${rr.pace}"></div><div class="upfood">${rr.e}</div>${rr.nap?'<div class="upnap">💤</div>':''}</div>`;}
+    const food=essenFor(nn);const ov=hasEssenOverride(nn)?'<span class="essen-override-mark">✎</span> ':'';
+    upHtml+=`<div class="upcoming-item"><div class="uprd">${nn}</div><div class="uptime">${rr.t0}</div><div class="updot ${rr.pace}"></div><div class="upfood">${ov}${food}</div>${rr.nap?'<div class="upnap">💤</div>':''}</div>`;}
   document.getElementById('upcoming-list').innerHTML=upHtml;
   const detected=detectRound();
   if(detected&&autoMode)document.getElementById('auto-banner').classList.remove('hidden');
@@ -937,11 +1088,13 @@ function buildPlan(){
     const r=rd(n);
     if(r.dayNum!==lastDay){html+=`<div class="day-hdr">${DAY_LABELS[r.dayNum]}</div>`;lastDay=r.dayNum;}
     const elHtml=r.el==='–'?`<span style="color:var(--dim)">–</span>`:`<span class="rc-elek">${r.el}</span>`;
+    const food=essenFor(n);
+    const ovMark=hasEssenOverride(n)?' <span class="essen-override-mark">✎</span>':'';
     html+=`<div class="rcard ${r.pace} ${n===curRound?'is-current':n<curRound?'is-done':''}" data-round="${n}" data-day="${r.dayNum}" data-pace="${r.pace}">
       <div class="rcard-top"><div class="rc-num">${n}</div><div class="rc-time">${r.t0}</div><div class="rc-phase">${r.phase}</div><div class="rc-sp"></div><div class="rc-pace ${r.pace}">${r.pace}</div>${r.nap?'<div class="rc-nap">💤</div>':''}</div>
       <div class="rcard-body">
         <div class="rc-row"><div class="rc-lbl">Flasche</div><div class="rc-val">${r.f==='Wasser'?'Wasser 💧':'MNSTRY '+r.f}</div></div>
-        <div class="rc-row"><div class="rc-lbl">Essen</div><div class="rc-val">${r.e}</div></div>
+        <div class="rc-row" onclick="event.stopPropagation();openEssenEdit(${n})" style="cursor:pointer"><div class="rc-lbl">Essen</div><div class="rc-val">${food}${ovMark} <span class="edit-pen-inline" style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;font-size:10px;color:var(--dim);background:var(--card2);border:1px solid var(--border2);border-radius:4px;margin-left:4px;">✎</span></div></div>
         <div class="rc-row"><div class="rc-lbl">Salz</div><div class="rc-val">${elHtml}</div></div>
         <div class="rc-hint">${r.hinweis}</div>
       </div></div>`;
@@ -997,27 +1150,91 @@ function updateClock(){
   if(curTab===0){renderCountdown();updateNapTimer();}
 }
 
-function updateNapTimer(){
+function secsUntil57(){
   const now=new Date();
   const m=now.getMinutes(),s=now.getSeconds();
-  let secsLeft;
-  if(m<57) secsLeft=(57-m)*60-s;
-  else secsLeft=(60-m+57)*60-s;
+  return m<57?(57-m)*60-s:(60-m+57)*60-s;
+}
+
+function updateNapTimer(){
+  const secsLeft=secsUntil57();
   const mm=Math.floor(secsLeft/60),ss=secsLeft%60;
   const el=document.getElementById('nt-time');
   if(el) el.textContent=`${mm}:${ss.toString().padStart(2,'0')}`;
-  // Timer-Button: versucht iOS Clock App zu öffnen, fallback zeigt Alert mit Minuten
   const btn=document.getElementById('nt-btn');
-  if(btn){
-    btn.onclick=function(e){
-      e.preventDefault();
-      // iOS Shortcut URL zum Starten eines Timers (funktioniert wenn Shortcuts-App installiert)
-      const tried=window.open('clock-timer://','_blank');
-      if(!tried||tried.closed===undefined){
-        alert(`Timer stellen auf: ${mm} Minuten ${ss} Sekunden`);
-      }
-    };
+  if(btn) btn.onclick=function(e){e.preventDefault();startNapTimer();};
+}
+
+// ═══ IN-APP NAP TIMER mit Vibration, Beep, Wake-Lock ═══
+let napTimeoutId=null,napIntervalId=null,napAlarmId=null,napWakeLock=null,napAudioCtx=null;
+
+async function startNapTimer(){
+  stopNapTimer(); // Alte Timer killen falls vorhanden
+  const overlay=document.getElementById('nap-overlay');
+  overlay.classList.remove('alarm');
+  overlay.classList.add('open');
+  document.getElementById('nap-state').textContent='Mikro-Nap läuft · weckt bei :57';
+  document.getElementById('nap-msg').textContent='Bildschirm bleibt an. Vibration + Ton beim Wecken.';
+
+  // Wake-Lock: Bildschirm wach halten
+  try{if('wakeLock' in navigator) napWakeLock=await navigator.wakeLock.request('screen');}catch(e){}
+
+  // Audio Context vorbereiten (User-Gesture-Anforderung iOS)
+  try{napAudioCtx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}
+  if(navigator.vibrate)navigator.vibrate(80);
+
+  // Countdown rendern
+  function tick(){
+    const left=secsUntil57();
+    const mm=Math.floor(left/60),ss=left%60;
+    document.getElementById('nap-cd').textContent=`${mm}:${ss.toString().padStart(2,'0')}`;
+    if(left<=0){clearInterval(napIntervalId);triggerNapAlarm();}
   }
+  tick();
+  napIntervalId=setInterval(tick,500);
+  // Sicherheits-Timeout falls Interval driftet
+  napTimeoutId=setTimeout(triggerNapAlarm,(secsUntil57()+1)*1000);
+}
+
+function triggerNapAlarm(){
+  if(napIntervalId){clearInterval(napIntervalId);napIntervalId=null;}
+  if(napTimeoutId){clearTimeout(napTimeoutId);napTimeoutId=null;}
+  const overlay=document.getElementById('nap-overlay');
+  overlay.classList.add('alarm');
+  document.getElementById('nap-state').textContent='WACH AUF · Runde startet';
+  document.getElementById('nap-cd').textContent=':57';
+  document.getElementById('nap-msg').textContent='Crew: Schickt Alessio raus!';
+  if(navigator.vibrate)navigator.vibrate([400,200,400,200,400,200,400,200,400]);
+  beepLoop();
+}
+
+function beepLoop(){
+  if(!napAudioCtx) return;
+  let count=0;
+  function oneBeep(){
+    if(count>=20)return; // ~10 sek alarm
+    const osc=napAudioCtx.createOscillator();
+    const gain=napAudioCtx.createGain();
+    osc.connect(gain);gain.connect(napAudioCtx.destination);
+    osc.frequency.value=880;
+    gain.gain.setValueAtTime(0,napAudioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.4,napAudioCtx.currentTime+0.02);
+    gain.gain.linearRampToValueAtTime(0,napAudioCtx.currentTime+0.25);
+    osc.start();
+    osc.stop(napAudioCtx.currentTime+0.3);
+    count++;
+  }
+  oneBeep();
+  napAlarmId=setInterval(oneBeep,500);
+}
+
+function stopNapTimer(){
+  if(napIntervalId){clearInterval(napIntervalId);napIntervalId=null;}
+  if(napTimeoutId){clearTimeout(napTimeoutId);napTimeoutId=null;}
+  if(napAlarmId){clearInterval(napAlarmId);napAlarmId=null;}
+  if(navigator.vibrate)navigator.vibrate(0);
+  if(napWakeLock){try{napWakeLock.release();}catch(e){}napWakeLock=null;}
+  document.getElementById('nap-overlay').classList.remove('open','alarm');
 }
 
 // ═══ WETTER ═══
@@ -1107,6 +1324,13 @@ function copyQrUrl(){
   });
 }
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
+
+// ═══ SERVICE WORKER (Offline-Support für Funkloch in Witikon) ═══
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
 
 // ═══ INIT ═══
 const autoDetected=detectRound();
