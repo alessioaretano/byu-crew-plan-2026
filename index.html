@@ -312,6 +312,43 @@
     .em-btn-save{background:var(--m-bg);color:var(--m-txt);border-color:var(--m-bd);}
     .em-btn:active{transform:scale(.98);}
 
+    /* UPDATE BANNER */
+    .update-banner{position:fixed;top:calc(var(--top) + env(safe-area-inset-top) + 10px);left:12px;right:12px;background:linear-gradient(135deg,var(--m-bg),rgba(61,168,90,.45));border:1px solid var(--m-bd);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;z-index:200;animation:upSlide .35s ease-out;box-shadow:0 4px 16px rgba(0,0,0,.5);}
+    .update-banner.hidden{display:none;}
+    @keyframes upSlide{from{transform:translateY(-20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+    .ub-text{color:var(--m-txt);font-size:13px;font-weight:600;}
+    .ub-btn{background:var(--m-acc);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;}
+    .ub-btn:active{transform:scale(.96);}
+
+    /* ALESSIO REIN BUTTON */
+    .arrival-block{margin:0 16px 14px;}
+    .arrival-btn{width:100%;background:linear-gradient(135deg,var(--m-bg),rgba(61,168,90,.4));border:1.5px solid var(--m-bd);border-radius:14px;padding:18px 16px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font-family:inherit;color:var(--m-txt);transition:transform .1s;}
+    .arrival-btn:active{transform:scale(.97);background:linear-gradient(135deg,var(--m-bg),rgba(61,168,90,.6));}
+    .arrival-btn-ico{font-size:24px;}
+    .arrival-btn-lbl{font-size:17px;font-weight:700;letter-spacing:.02em;}
+    .arrival-done{background:var(--card);border:1px solid var(--m-bd);border-radius:14px;padding:14px 16px;}
+    .arrival-row{display:flex;align-items:center;gap:14px;}
+    .arrival-cell{flex:1;}
+    .arrival-lbl{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+    .arrival-val{font-size:22px;font-weight:700;color:var(--cream);font-variant-numeric:tabular-nums;line-height:1.1;}
+    .arrival-edit{width:34px;height:34px;background:var(--card2);border:1px solid var(--border2);border-radius:8px;color:var(--mid);font-size:14px;cursor:pointer;flex-shrink:0;}
+    .arrival-edit:active{background:var(--border2);}
+    .arrival-cmp{font-size:12px;color:var(--mid);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+    .arrival-cmp.under{color:var(--m-txt);}
+    .arrival-cmp.over{color:var(--s-txt);}
+    .arrival-cmp.match{color:var(--cream);}
+
+    /* LOG EDIT */
+    .log-entry{cursor:pointer;transition:background .1s;}
+    .log-entry:active{background:var(--border2);}
+    .le-edit-hint{font-size:10px;color:var(--dim);text-align:center;padding:6px 0 0;font-style:italic;border-top:1px solid var(--border);margin-top:6px;}
+    .le-lap{display:inline-block;background:var(--card2);border:1px solid var(--border2);border-radius:6px;padding:1px 7px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;margin-left:4px;}
+    .le-lap.under{background:var(--m-bg);border-color:var(--m-bd);color:var(--m-txt);}
+    .le-lap.over{background:var(--s-bg);border-color:var(--s-bd);color:var(--s-txt);}
+
+    /* BUILD LABEL */
+    .build-lbl{text-align:center;font-size:10px;color:var(--dim);padding:8px 0 4px;font-variant-numeric:tabular-nums;}
+
     /* NAP TIMER OVERLAY */
     .nap-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(144,96,200,.95);z-index:1500;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:24px;}
     .nap-overlay.open{display:flex;}
@@ -325,6 +362,12 @@
   </style>
 </head>
 <body>
+
+<!-- UPDATE BANNER -->
+<div class="update-banner hidden" id="update-banner">
+  <span class="ub-text">🔄 Neue Version verfügbar</span>
+  <button class="ub-btn" onclick="applyUpdate()">Neu laden</button>
+</div>
 
 <div class="top-bar">
   <div class="em-trigger" onclick="toggleEmPopup(event)">
@@ -406,6 +449,28 @@
       <div id="auto-banner" class="auto-banner hidden">
         <span>⏱ Zeit-Sync aktiv</span>
         <button onclick="disableAuto()">Stoppen</button>
+      </div>
+
+      <!-- ALESSIO REIN -->
+      <div class="arrival-block">
+        <button class="arrival-btn" id="arrival-btn" onclick="markArrival()">
+          <span class="arrival-btn-ico">🏁</span>
+          <span class="arrival-btn-lbl">Alessio ist rein</span>
+        </button>
+        <div class="arrival-done hidden" id="arrival-done">
+          <div class="arrival-row">
+            <div class="arrival-cell">
+              <div class="arrival-lbl">Rein um</div>
+              <div class="arrival-val" id="arrival-time">—</div>
+            </div>
+            <div class="arrival-cell">
+              <div class="arrival-lbl">Rundenzeit</div>
+              <div class="arrival-val" id="arrival-dur">—</div>
+            </div>
+            <button class="arrival-edit" onclick="openArrivalEdit()" title="Zeit anpassen">✎</button>
+          </div>
+          <div class="arrival-cmp" id="arrival-cmp"></div>
+        </div>
       </div>
 
       <div id="nap-alert" class="nap-alert hidden">
@@ -576,6 +641,7 @@
           «Don't overwhelm yourself with the big picture.<br>Just master the art of showing up.»<br>
           <span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-top:6px;display:block;">— Phil Gore</span>
         </div>
+        <div class="build-lbl" id="build-lbl">v—</div>
       </div>
     </div>
 
@@ -624,6 +690,51 @@
     </div>
     <div class="forecast-grid" id="forecast-grid">
       <div style="text-align:center;color:var(--dim);padding:24px;font-style:italic;">Wird geladen…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ARRIVAL EDIT MODAL -->
+<div class="essen-modal" id="arrival-modal" onclick="if(event.target===this)closeArrivalEdit()">
+  <div class="em-inner">
+    <div class="em-handle"></div>
+    <div class="em-ttl">Ankunftszeit anpassen</div>
+    <div class="em-sub" id="ar-sub">Runde —</div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <input type="time" id="ar-time" step="1" style="background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:20px;padding:12px 16px;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums;-webkit-appearance:none;">
+    </div>
+    <div class="em-actions">
+      <button class="em-btn em-btn-cancel" onclick="closeArrivalEdit()">Abbrechen</button>
+      <button class="em-btn em-btn-reset" onclick="deleteArrival()">Löschen</button>
+      <button class="em-btn em-btn-save" onclick="saveArrivalEdit()">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOG ENTRY EDIT MODAL -->
+<div class="essen-modal" id="log-edit-modal" onclick="if(event.target===this)closeLogEdit()">
+  <div class="em-inner" style="max-height:85vh;overflow-y:auto;">
+    <div class="em-handle"></div>
+    <div class="em-ttl">Log-Eintrag bearbeiten</div>
+    <div class="em-sub" id="le-sub">Runde —</div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Ankunftszeit</div>
+      <input type="time" id="le-time" step="1" style="width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:16px;padding:10px 12px;font-family:inherit;font-variant-numeric:tabular-nums;-webkit-appearance:none;">
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Auffälligkeiten</div>
+      <div id="le-chips" class="lq-chips"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Notiz</div>
+      <textarea id="le-note" style="width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:14px;padding:10px 12px;resize:none;height:80px;font-family:inherit;"></textarea>
+    </div>
+    <div class="em-actions" style="margin-bottom:8px;">
+      <button class="em-btn em-btn-reset" onclick="deleteLogEntry()" style="flex:1;">🗑 Eintrag löschen</button>
+    </div>
+    <div class="em-actions">
+      <button class="em-btn em-btn-cancel" onclick="closeLogEdit()">Abbrechen</button>
+      <button class="em-btn em-btn-save" onclick="saveLogEdit()">Speichern</button>
     </div>
   </div>
 </div>
@@ -762,6 +873,7 @@ const NUT=[
   {f:"Slow Carb",e:"Pringles + 3 Datteln",el:"–"},{f:"Wasser",e:"Toast mit Nutella + 1 Banane",el:"1 Elektrolyt-Tab."},
 ];
 
+const BUILD='v3 · 2026-04-27';
 const START=new Date(2026,4,14,12,0,0);
 const DAY_START=new Date(2026,4,14,0,0,0);
 const WD=['So','Mo','Di','Mi','Do','Fr','Sa'];
@@ -846,6 +958,7 @@ function addLogEntry(roundNum,prepDone,issues,note){
   const r=rd(roundNum);
   const now=new Date();
   const existing=logData.findIndex(e=>e.round===roundNum);
+  const oldEntry=existing>=0?logData[existing]:null;
   const essen=essenFor(roundNum);
   const entry={
     round:roundNum,
@@ -857,12 +970,154 @@ function addLogEntry(roundNum,prepDone,issues,note){
     elek:r.el,
     prepDone,issues,
     note:note||'',
-    ts:Date.now()
+    ts:Date.now(),
+    arrivedAt:oldEntry?oldEntry.arrivedAt:undefined
   };
   if(existing>=0) logData[existing]=entry; else logData.push(entry);
   logData.sort((a,b)=>a.round-b.round);
   saveLog();
   renderLog();
+}
+
+// ═══ ARRIVAL (Alessio rein) ═══
+function plannedPaceMin(r){return r.pace==='SCHNELL'?43:r.pace==='MITTEL'?50:54;}
+function fmtLap(secs){
+  if(secs<0)return '—';
+  const mm=Math.floor(secs/60),ss=Math.floor(secs%60);
+  return `${mm}:${ss.toString().padStart(2,'0')}`;
+}
+function fmtClock(ts){
+  const t=new Date(ts);
+  return `${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}:${t.getSeconds().toString().padStart(2,'0')}`;
+}
+function markArrival(){
+  const ts=Date.now();
+  let entry=logData.find(e=>e.round===curRound);
+  if(!entry){
+    addLogEntry(curRound,{...prepState},getActiveChips(),document.getElementById('lq-note').value.trim());
+    entry=logData.find(e=>e.round===curRound);
+  }
+  if(entry){entry.arrivedAt=ts;saveLog();renderLog();}
+  if(navigator.vibrate)navigator.vibrate(60);
+  renderArrivalState();
+}
+function renderArrivalState(){
+  const entry=logData.find(e=>e.round===curRound);
+  const btn=document.getElementById('arrival-btn');
+  const done=document.getElementById('arrival-done');
+  if(entry&&entry.arrivedAt){
+    btn.classList.add('hidden');
+    done.classList.remove('hidden');
+    const r=rd(curRound);
+    const durSec=Math.max(0,(entry.arrivedAt-r.startMs)/1000);
+    document.getElementById('arrival-time').textContent=fmtClock(entry.arrivedAt);
+    document.getElementById('arrival-dur').textContent=fmtLap(durSec);
+    const planMin=plannedPaceMin(r);
+    const diffMin=(durSec/60)-planMin;
+    const cmp=document.getElementById('arrival-cmp');
+    if(Math.abs(diffMin)<0.5){
+      cmp.textContent=`↔ Im Plan (${r.ziel})`;
+      cmp.className='arrival-cmp match';
+    } else if(diffMin<0){
+      cmp.textContent=`⚡ ${Math.abs(diffMin).toFixed(1)} min schneller (Plan ${r.ziel})`;
+      cmp.className='arrival-cmp under';
+    } else {
+      cmp.textContent=`🐢 ${diffMin.toFixed(1)} min langsamer (Plan ${r.ziel})`;
+      cmp.className='arrival-cmp over';
+    }
+  } else {
+    btn.classList.remove('hidden');
+    done.classList.add('hidden');
+  }
+}
+function openArrivalEdit(){
+  const entry=logData.find(e=>e.round===curRound);
+  if(!entry||!entry.arrivedAt)return;
+  const r=rd(curRound);
+  const t=new Date(entry.arrivedAt);
+  document.getElementById('ar-sub').textContent=`Runde ${curRound} · Start ${r.t0} Uhr`;
+  document.getElementById('ar-time').value=`${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}:${t.getSeconds().toString().padStart(2,'0')}`;
+  document.getElementById('arrival-modal').classList.add('open');
+}
+function closeArrivalEdit(){document.getElementById('arrival-modal').classList.remove('open');}
+function saveArrivalEdit(){
+  const v=document.getElementById('ar-time').value;
+  if(!v){closeArrivalEdit();return;}
+  const parts=v.split(':').map(Number);
+  const h=parts[0]||0,m=parts[1]||0,s=parts[2]||0;
+  const entry=logData.find(e=>e.round===curRound);
+  if(entry){
+    const r=rd(curRound);
+    const newT=new Date(r.startMs);
+    newT.setHours(h,m,s,0);
+    // Falls Eingabe vor Rundenbeginn → einen Tag nach vorne (Mitternachts-Wraparound)
+    if(newT.getTime()<r.startMs-600000)newT.setDate(newT.getDate()+1);
+    entry.arrivedAt=newT.getTime();
+    saveLog();renderLog();
+  }
+  closeArrivalEdit();
+  renderArrivalState();
+}
+function deleteArrival(){
+  const entry=logData.find(e=>e.round===curRound);
+  if(entry){delete entry.arrivedAt;saveLog();renderLog();}
+  closeArrivalEdit();
+  renderArrivalState();
+}
+
+// ═══ LOG ENTRY EDIT ═══
+const ISSUE_OPTIONS=['Knie schmerzt','Magenprobleme','Blasen','Kriegt nichts runter','Schläfrig','Motivationstief','Muskelkrämpfe','Super drauf 💪','Langsamer als Plan','Schneller als Plan'];
+let editingLogRound=null;
+function openLogEdit(round){
+  editingLogRound=round;
+  const entry=logData.find(e=>e.round===round);
+  if(!entry)return;
+  const r=rd(round);
+  document.getElementById('le-sub').textContent=`Runde ${round} · Start ${r.t0} · ${r.pace}`;
+  if(entry.arrivedAt){
+    const t=new Date(entry.arrivedAt);
+    document.getElementById('le-time').value=`${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}:${t.getSeconds().toString().padStart(2,'0')}`;
+  } else {
+    document.getElementById('le-time').value='';
+  }
+  const ex=new Set(entry.issues||[]);
+  document.getElementById('le-chips').innerHTML=ISSUE_OPTIONS.map(o=>
+    `<div class="lq-chip${ex.has(o)?' active':''}" onclick="this.classList.toggle('active')">${o}</div>`
+  ).join('');
+  document.getElementById('le-note').value=entry.note||'';
+  document.getElementById('log-edit-modal').classList.add('open');
+}
+function closeLogEdit(){document.getElementById('log-edit-modal').classList.remove('open');editingLogRound=null;}
+function saveLogEdit(){
+  if(editingLogRound==null)return;
+  const entry=logData.find(e=>e.round===editingLogRound);
+  if(!entry){closeLogEdit();return;}
+  const v=document.getElementById('le-time').value;
+  if(v){
+    const parts=v.split(':').map(Number);
+    const h=parts[0]||0,m=parts[1]||0,s=parts[2]||0;
+    const r=rd(editingLogRound);
+    const newT=new Date(r.startMs);
+    newT.setHours(h,m,s,0);
+    if(newT.getTime()<r.startMs-600000)newT.setDate(newT.getDate()+1);
+    entry.arrivedAt=newT.getTime();
+    entry.time=`${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+  } else if(entry.arrivedAt){
+    delete entry.arrivedAt;
+  }
+  entry.issues=[...document.querySelectorAll('#le-chips .lq-chip.active')].map(c=>c.textContent);
+  entry.note=document.getElementById('le-note').value.trim();
+  saveLog();renderLog();
+  if(editingLogRound===curRound)renderArrivalState();
+  closeLogEdit();
+}
+function deleteLogEntry(){
+  if(editingLogRound==null)return;
+  if(!confirm('Diesen Log-Eintrag wirklich löschen?'))return;
+  logData=logData.filter(e=>e.round!==editingLogRound);
+  saveLog();renderLog();
+  if(editingLogRound===curRound){renderArrivalState();}
+  closeLogEdit();
 }
 
 function renderLog(){
@@ -878,7 +1133,17 @@ function renderLog(){
     const essenLine=e.essenOverride
       ?`<span class="le-val">${e.essen} <span class="essen-override-mark">✎ statt: ${e.essenOverride}</span></span>`
       :`<span class="le-val">${e.essen}</span>`;
-    return`<div class="log-entry">
+    // Lap row
+    let lapLine='';
+    if(e.arrivedAt){
+      const r=rd(e.round);
+      const durSec=Math.max(0,(e.arrivedAt-r.startMs)/1000);
+      const planMin=plannedPaceMin(r);
+      const diffMin=(durSec/60)-planMin;
+      const lapCls=Math.abs(diffMin)<0.5?'':diffMin<0?'under':'over';
+      lapLine=`<div class="le-row"><span class="le-lbl">Rein um</span><span class="le-val">${fmtClock(e.arrivedAt)} <span class="le-lap ${lapCls}">${fmtLap(durSec)}</span></span></div>`;
+    }
+    return`<div class="log-entry" onclick="openLogEdit(${e.round})">
       <div class="le-top">
         <div class="le-rd">${e.round}</div>
         <div class="le-time">${e.time} Uhr</div>
@@ -886,12 +1151,14 @@ function renderLog(){
         <div class="le-pace ${e.pace}">${e.pace}</div>
       </div>
       <div class="le-body">
+        ${lapLine}
         <div class="le-row"><span class="le-lbl">Flasche</span><span class="le-val">${e.flasche}</span></div>
         <div class="le-row"><span class="le-lbl">Essen</span>${essenLine}</div>
         ${prepIcons?`<div class="le-row"><span class="le-lbl">Abgehakt</span><span class="le-val">${prepIcons}</span></div>`:''}
         ${issueHtml}
         ${e.note?`<div class="le-note">📝 ${e.note}</div>`:''}
       </div>
+      <div class="le-edit-hint">Tippen zum Bearbeiten</div>
     </div>`;
   }).join('');
 }
@@ -933,18 +1200,26 @@ function saveLogEntry(){
 function exportPDF(){
   if(logData.length===0){alert('Noch keine Log-Einträge vorhanden.');return;}
   const win=window.open('','_blank');
-  const rows=logData.map(e=>`
+  const rows=logData.map(e=>{
+    let lapTxt='–';
+    if(e.arrivedAt){
+      const r=rd(e.round);
+      const durSec=Math.max(0,(e.arrivedAt-r.startMs)/1000);
+      lapTxt=fmtLap(durSec);
+    }
+    return `
     <tr>
       <td>${e.round}</td>
-      <td>${e.time}</td>
+      <td>${e.arrivedAt?fmtClock(e.arrivedAt):e.time}</td>
+      <td>${lapTxt}</td>
       <td>${e.phase}</td>
       <td>${e.pace}</td>
       <td>${e.flasche}</td>
-      <td>${e.essen}</td>
+      <td>${e.essen}${e.essenOverride?' (geplant: '+e.essenOverride+')':''}</td>
       <td>${e.elek}</td>
       <td>${e.issues&&e.issues.length?e.issues.join(', '):'–'}</td>
       <td>${e.note||'–'}</td>
-    </tr>`).join('');
+    </tr>`;}).join('');
   win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
     <title>BYU 2026 · Runden-Log</title>
     <style>
@@ -963,7 +1238,7 @@ function exportPDF(){
     <h1>Witikon BYU 2026 · Runden-Log</h1>
     <div class="sub">Exportiert am ${new Date().toLocaleDateString('de-CH')} · ${logData.length} Runden</div>
     <table>
-      <thead><tr><th>Rd</th><th>Zeit</th><th>Phase</th><th>Tempo</th><th>Flasche</th><th>Essen</th><th>Salz</th><th>Auffälligkeiten</th><th>Notiz</th></tr></thead>
+      <thead><tr><th>Rd</th><th>Rein um</th><th>Lap</th><th>Phase</th><th>Tempo</th><th>Flasche</th><th>Essen</th><th>Salz</th><th>Auffälligkeiten</th><th>Notiz</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <script>window.onload=()=>{window.print();}<\/script>
@@ -1046,6 +1321,7 @@ function renderJetzt(){
     document.getElementById('next-card').style.display='';
   } else {document.getElementById('next-card').style.display='none';}
   renderCountdown();
+  renderArrivalState();
   let upHtml='';
   for(let i=1;i<=5;i++){const nn=curRound+i;if(nn>120)break;const rr=rd(nn);
     const food=essenFor(nn);const ov=hasEssenOverride(nn)?'<span class="essen-override-mark">✎</span> ':'';
@@ -1336,15 +1612,48 @@ function copyQrUrl(){
 document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)this.style.display='none';});
 
 // ═══ SERVICE WORKER (Offline-Support für Funkloch in Witikon) ═══
+let updateReady=false;
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      // Periodisch und beim Wechsel in Vordergrund nach Updates suchen
+      reg.update().catch(()=>{});
+      document.addEventListener('visibilitychange',()=>{
+        if(document.visibilityState==='visible')reg.update().catch(()=>{});
+      });
+      // Wenn neuer SW gefunden + installiert → Banner zeigen
+      reg.addEventListener('updatefound',()=>{
+        const nw=reg.installing;
+        if(!nw)return;
+        nw.addEventListener('statechange',()=>{
+          if(nw.state==='installed'&&navigator.serviceWorker.controller){
+            updateReady=true;
+            document.getElementById('update-banner').classList.remove('hidden');
+          }
+        });
+      });
+      // Wenn neuer SW Kontrolle übernimmt → automatisch reload
+      let refreshing=false;
+      navigator.serviceWorker.addEventListener('controllerchange',()=>{
+        if(refreshing)return;
+        refreshing=true;
+        window.location.reload();
+      });
+    }).catch(()=>{});
   });
+}
+function applyUpdate(){
+  document.getElementById('update-banner').classList.add('hidden');
+  navigator.serviceWorker.getRegistration().then(reg=>{
+    if(reg&&reg.waiting){reg.waiting.postMessage({type:'SKIP_WAITING'});}
+    setTimeout(()=>window.location.reload(),300);
+  }).catch(()=>window.location.reload());
 }
 
 // ═══ INIT ═══
 const autoDetected=detectRound();
 if(autoDetected){curRound=autoDetected;autoMode=true;}
+const _bl=document.getElementById('build-lbl');if(_bl)_bl.textContent=BUILD;
 fetchWeather();
 renderJetzt();
 buildPlan();
