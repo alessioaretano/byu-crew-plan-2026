@@ -537,6 +537,8 @@
           <div class="lq-chip" onclick="toggleChip(this)">Super drauf 💪</div>
           <div class="lq-chip" onclick="toggleChip(this)">Langsamer als Plan</div>
           <div class="lq-chip" onclick="toggleChip(this)">Schneller als Plan</div>
+          <div class="lq-chip" onclick="toggleChip(this)">Ibuprofen</div>
+          <div class="lq-chip" onclick="toggleChip(this)">Paracetamol</div>
         </div>
         <textarea id="lq-note" placeholder="Eigene Notiz (optional)…" style="width:100%;background:var(--card2);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-size:14px;padding:10px 12px;margin-bottom:10px;resize:none;height:68px;font-family:inherit;display:block;"></textarea>
         <button class="lq-save" onclick="saveLogEntry()">Runde speichern</button>
@@ -818,6 +820,196 @@
   </div>
 </div>
 
+<!-- ═══ CREW SYNC: STATUS BADGE ═══ -->
+<div id="sync-status" style="position:fixed;top:8px;right:8px;z-index:1500;font-size:11px;padding:4px 9px;border-radius:12px;background:rgba(234,179,8,.2);color:#fff;border:1px solid rgba(255,255,255,.15);font-weight:600;backdrop-filter:blur(6px);pointer-events:none;">⏳ Verbinde…</div>
+
+<!-- ═══ CREW SYNC: CODE MODAL ═══ -->
+<div id="crew-code-modal" style="position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:2000;display:none;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#111;border:1px solid #333;border-radius:18px;padding:28px 22px;max-width:380px;width:100%;color:#fff;font-family:inherit;">
+    <div style="font-size:20px;font-weight:700;margin-bottom:8px;">🔐 Crew-Code</div>
+    <div style="font-size:13px;color:#aaa;line-height:1.5;margin-bottom:18px;">Gib den Code ein, den Alessio dir gegeben hat. Damit siehst du <b>dieselben Daten</b> wie der Rest der Crew (Runden, Logs, Essen-Überschreibungen). Wird einmalig gespeichert.</div>
+    <input id="crew-code-input" placeholder="z.B. witiker2026" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" style="width:100%;background:#1a1a1a;border:1px solid #444;border-radius:10px;color:#fff;font-size:16px;padding:12px 14px;margin-bottom:14px;font-family:inherit;box-sizing:border-box;">
+    <button id="crew-code-submit" style="width:100%;background:#FDE047;color:#000;border:none;border-radius:10px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">Verbinden</button>
+    <div id="crew-code-err" style="display:none;color:#f87171;font-size:12px;margin-top:10px;text-align:center;"></div>
+  </div>
+</div>
+
+<!-- ═══ CREW SYNC: FIREBASE MODULE ═══ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  doc, onSnapshot, setDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDVEtQc-hEjl8JZZjQeXZudYzy6bCG3G14",
+  authDomain: "byu-crew-2026.firebaseapp.com",
+  projectId: "byu-crew-2026",
+  storageBucket: "byu-crew-2026.firebasestorage.app",
+  messagingSenderId: "79497060021",
+  appId: "1:79497060021:web:e95e70767cea46549ae8fc"
+};
+
+const app = initializeApp(firebaseConfig);
+let db;
+try {
+  db = initializeFirestore(app, {
+    localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+  });
+} catch (e) {
+  const { getFirestore } = await import("https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js");
+  db = getFirestore(app);
+}
+
+const PREFIX = 'byu_';
+const META = new Set(['byu_crew_code','byu_device_id']);
+
+function setStatus(txt, bg){
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  el.textContent = txt;
+  el.style.background = bg;
+}
+
+let deviceId = localStorage.getItem('byu_device_id');
+if (!deviceId) {
+  deviceId = (crypto.randomUUID?.() || ('d'+Math.random().toString(36).slice(2)+Date.now().toString(36)));
+  localStorage.setItem('byu_device_id', deviceId);
+}
+
+function askCrewCode(){
+  return new Promise(resolve => {
+    const m = document.getElementById('crew-code-modal');
+    const inp = document.getElementById('crew-code-input');
+    const btn = document.getElementById('crew-code-submit');
+    m.style.display = 'flex';
+    setTimeout(()=>inp.focus(), 50);
+    const submit = () => {
+      const v = inp.value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,'');
+      if (!v || v.length<3) {
+        const err=document.getElementById('crew-code-err');
+        err.textContent='Mindestens 3 Zeichen, nur Buchstaben/Zahlen.';
+        err.style.display='block';
+        return;
+      }
+      m.style.display='none';
+      resolve(v);
+    };
+    btn.onclick = submit;
+    inp.onkeydown = e => { if (e.key==='Enter') submit(); };
+  });
+}
+
+let crewCode = localStorage.getItem('byu_crew_code');
+if (!crewCode) {
+  crewCode = await askCrewCode();
+  localStorage.setItem('byu_crew_code', crewCode);
+}
+
+const docRef = doc(db, 'crews', crewCode);
+setStatus('⏳ Verbinde…','rgba(234,179,8,.2)');
+
+// ─── Debounced writes ───
+const pending = {};
+let writeTimer = null;
+function scheduleFlush(){
+  clearTimeout(writeTimer);
+  writeTimer = setTimeout(flush, 400);
+}
+async function flush(){
+  const keys = Object.keys(pending);
+  if (keys.length===0) return;
+  const payload = { ...pending, _updatedAt: serverTimestamp(), _updatedBy: deviceId };
+  for (const k of keys) delete pending[k];
+  try {
+    await setDoc(docRef, payload, { merge: true });
+    setStatus('🟢 Sync','rgba(34,197,94,.22)');
+  } catch (e) {
+    console.warn('[crewSync] write failed:', e);
+    setStatus('🟡 Offline','rgba(234,179,8,.25)');
+  }
+}
+
+// ─── Public API ───
+window.crewSync = {
+  push(key, value){
+    if (!key || !key.startsWith(PREFIX) || META.has(key)) return;
+    pending[key] = value;
+    scheduleFlush();
+  },
+  crewCode,
+  deviceId
+};
+
+let isApplyingRemote = false;
+window.__crewIsApplyingRemote = () => isApplyingRemote;
+
+let isFirstSnap = true;
+onSnapshot(docRef, snap => {
+  if (!snap.exists()) {
+    if (isFirstSnap) {
+      isFirstSnap = false;
+      seedFromLocal();
+    }
+    setStatus('🟢 Sync','rgba(34,197,94,.22)');
+    return;
+  }
+  const data = snap.data();
+  if (data._updatedBy === deviceId && !isFirstSnap) {
+    setStatus('🟢 Sync','rgba(34,197,94,.22)');
+    return;
+  }
+  isFirstSnap = false;
+  isApplyingRemote = true;
+  for (const [k,v] of Object.entries(data)) {
+    if (!k.startsWith(PREFIX) || META.has(k) || k.startsWith('_')) continue;
+    try {
+      if (typeof v === 'string') localStorage.setItem(k, v);
+      else localStorage.setItem(k, JSON.stringify(v));
+    } catch (e) { console.warn('[crewSync] localStorage write failed for',k,e); }
+  }
+  isApplyingRemote = false;
+  window.dispatchEvent(new CustomEvent('crew-sync-update'));
+  setStatus('🟢 Sync','rgba(34,197,94,.22)');
+}, err => {
+  console.warn('[crewSync] snapshot error:', err);
+  setStatus('🔴 Fehler','rgba(239,68,68,.3)');
+});
+
+function seedFromLocal(){
+  const data = {};
+  for (let i=0; i<localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith(PREFIX) || META.has(k)) continue;
+    const raw = localStorage.getItem(k);
+    try { data[k] = JSON.parse(raw); }
+    catch { data[k] = raw; }
+  }
+  data._updatedAt = serverTimestamp();
+  data._updatedBy = deviceId;
+  setDoc(docRef, data, { merge: true })
+    .then(()=>console.log('[crewSync] seeded crew doc'))
+    .catch(e=>console.warn('[crewSync] seed failed:', e));
+}
+
+// ─── Online/Offline indicator ───
+window.addEventListener('online', ()=>setStatus('🟢 Sync','rgba(34,197,94,.22)'));
+window.addEventListener('offline', ()=>setStatus('🟡 Offline','rgba(234,179,8,.25)'));
+
+// ─── Reset crew code helper (called from tap on badge) ───
+window.crewSyncReset = () => {
+  if (!confirm('Crew-Code wirklich zurücksetzen? Lokale Daten bleiben, aber du musst den Code neu eingeben.')) return;
+  localStorage.removeItem('byu_crew_code');
+  location.reload();
+};
+document.getElementById('sync-status').style.pointerEvents='auto';
+document.getElementById('sync-status').style.cursor='pointer';
+document.getElementById('sync-status').addEventListener('click', ()=>window.crewSyncReset());
+</script>
+
 <script>
 // ═══ DATEN ═══
 const PACE=[
@@ -1066,7 +1258,7 @@ function deleteArrival(){
 }
 
 // ═══ LOG ENTRY EDIT ═══
-const ISSUE_OPTIONS=['Knie schmerzt','Magenprobleme','Blasen','Kriegt nichts runter','Schläfrig','Motivationstief','Muskelkrämpfe','Super drauf 💪','Langsamer als Plan','Schneller als Plan'];
+const ISSUE_OPTIONS=['Knie schmerzt','Magenprobleme','Blasen','Kriegt nichts runter','Schläfrig','Motivationstief','Muskelkrämpfe','Super drauf 💪','Langsamer als Plan','Schneller als Plan','Ibuprofen','Paracetamol'];
 let editingLogRound=null;
 function openLogEdit(round){
   editingLogRound=round;
@@ -1659,6 +1851,30 @@ renderJetzt();
 buildPlan();
 setInterval(updateClock,1000);
 setInterval(fetchWeather,600000);
+
+// ═══ CREW SYNC: Save-Funktionen wrappen (mirror to Firestore) ═══
+const _saveLog_orig=saveLog;
+saveLog=function(){_saveLog_orig();if(!window.__crewIsApplyingRemote?.())window.crewSync?.push('byu_log',logData);};
+
+const _saveEO_orig=saveEssenOverrides;
+saveEssenOverrides=function(){_saveEO_orig();if(!window.__crewIsApplyingRemote?.())window.crewSync?.push('byu_essen_overrides',essenOverrides);};
+
+const _persistPrep_orig=persistPrepState;
+persistPrepState=function(n,s){_persistPrep_orig(n,s);if(!window.__crewIsApplyingRemote?.())window.crewSync?.push('byu_prep_'+n,s);};
+
+const _save_orig=save;
+save=function(){_save_orig();if(!window.__crewIsApplyingRemote?.())window.crewSync?.push('byu_rd',String(curRound));};
+
+// ═══ CREW SYNC: Remote-Updates anwenden ═══
+window.addEventListener('crew-sync-update',()=>{
+  curRound=parseInt(localStorage.getItem('byu_rd')||'1');
+  essenOverrides=JSON.parse(localStorage.getItem('byu_essen_overrides')||'{}');
+  logData=JSON.parse(localStorage.getItem('byu_log')||'[]');
+  prepState=loadPrepState(curRound);
+  if(typeof renderJetzt==='function')renderJetzt();
+  if(typeof renderLog==='function')renderLog();
+  if(typeof buildPlan==='function')buildPlan();
+});
 </script>
 </body>
 </html>
