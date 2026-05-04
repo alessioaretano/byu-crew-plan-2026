@@ -1,7 +1,7 @@
 // BYU 2026 Crew · Service Worker
 // Sorgt dafür, dass die App auch bei Funkloch in Witikon weiterläuft.
 // WICHTIG: Bei jedem index.html/sw.js Update Cache-Version hochzählen!
-const CACHE = 'byu-crew-v8';
+const CACHE = 'byu-crew-v9';
 const ASSETS = [
   './',
   './index.html',
