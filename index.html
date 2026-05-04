@@ -26,14 +26,14 @@
     html,body{height:100vh;height:100dvh;overflow:hidden;background:var(--bg);width:100%;overscroll-behavior:none;}
     body{color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif;font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;user-select:none;-webkit-tap-highlight-color:transparent;}
 
-    .top-bar{position:fixed;top:0;left:0;right:0;height:calc(var(--top) + env(safe-area-inset-top));background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top);}
+    .top-bar{position:fixed;top:0;left:0;right:0;height:calc(var(--top) + env(safe-area-inset-top));background:#1C1C1C;border-bottom:1px solid var(--border2);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;padding-top:env(safe-area-inset-top);}
     .brand{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--cream);letter-spacing:-.5px;}
     .top-right{display:flex;flex-direction:column;align-items:flex-end;gap:1px;text-align:right;}
     .live-clock{font-size:18px;font-weight:600;color:var(--cream);font-variant-numeric:tabular-nums;letter-spacing:-.5px;}
     .race-day{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em;}
     .sync-badge{display:inline-block;font-size:10px;line-height:1;padding:3px 8px;border-radius:10px;background:rgba(234,179,8,.2);color:#fff;border:1px solid rgba(255,255,255,.15);font-weight:700;letter-spacing:.02em;cursor:pointer;backdrop-filter:blur(6px);margin-bottom:1px;}
 
-    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--bot) + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--border);z-index:100;display:flex;padding-top:10px;padding-bottom:env(safe-area-inset-bottom);}
+    .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--bot) + env(safe-area-inset-bottom));background:#1C1C1C;border-top:1px solid var(--border2);z-index:100;display:flex;padding-top:10px;padding-bottom:env(safe-area-inset-bottom);}
     .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:var(--dim);cursor:pointer;padding:4px 8px;min-height:50px;transition:color .15s;-webkit-tap-highlight-color:transparent;}
     .nav-btn.active{color:var(--cream);}
     .nav-icon{font-size:20px;line-height:1;}
